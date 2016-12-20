@@ -1,0 +1,8 @@
+{
+    "name": "mongod",
+    "method": "GET",
+    "suffix": ":28017",
+    "hits": [
+        "SecsRunning"
+    ]
+}

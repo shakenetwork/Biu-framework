@@ -1,0 +1,6 @@
+{
+    "name":"DockerRemoteAPI",
+    "method": "GET",
+    "suffix":":2375/info",
+    "hits":["Containers"]
+}

@@ -1,0 +1,6 @@
+{
+    "name": "elasticsearch",
+    "method": "GET",
+    "suffix": ":9200",
+    "hits": ["cluster_name"]
+}

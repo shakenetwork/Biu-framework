@@ -1,0 +1,8 @@
+{
+    "name": "git_disclosure",
+    "method": "GET",
+    "suffix": "/.git/config",
+    "hits": [
+        "repositoryformatversion"
+    ]
+}

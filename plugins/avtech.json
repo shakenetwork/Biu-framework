@@ -1,0 +1,6 @@
+{
+    "name":"avtech",
+    "method": "GET",
+    "suffix":"/cgi-bin/nobody/Machine.cgi?action=get_capability",
+    "hits":["Firmware"]
+}

@@ -1,0 +1,8 @@
+{
+    "name": "jenkins_command",
+    "method": "GET",
+    "suffix": "/script",
+    "hits": [
+        "println"
+    ]
+}

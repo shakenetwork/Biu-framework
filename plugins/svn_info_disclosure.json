@@ -1,0 +1,8 @@
+{
+    "name": "svn_disclosure",
+    "method": "GET",
+    "suffix": "/.svn/all-wcprops",
+    "hits": [
+        "svn:wc:ra_dav:version-url"
+    ]
+}

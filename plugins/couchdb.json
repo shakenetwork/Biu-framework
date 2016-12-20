@@ -1,0 +1,6 @@
+{
+    "name":"couchdb",
+    "method": "GET",
+    "suffix":":5986/_utils/",
+    "hits":["Overview","Databases","couch"]
+}

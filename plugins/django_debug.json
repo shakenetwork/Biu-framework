@@ -1,0 +1,8 @@
+{
+    "name": "Django Debug",
+    "method": "GET",
+    "suffix": "/_orange_/",
+    "hits": [
+        "URLconf"
+    ]
+}

@@ -1,0 +1,6 @@
+{
+    "name":"hp_laserjet",
+    "method": "GET",
+    "suffix":"/SSI/index.htm",
+    "hits":["LaserJet"]
+}

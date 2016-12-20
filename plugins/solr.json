@@ -1,0 +1,6 @@
+{
+    "name":"solr",
+    "method": "GET",
+    "suffix":"/solr/",
+    "hits":["solr_path"]
+}
