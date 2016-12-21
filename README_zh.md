@@ -6,19 +6,17 @@
 [![GitHub license](https://img.shields.io/badge/license-GPLv3-blue.svg)](https://raw.githubusercontent.com/0xbug/Biu-framework/master/LICENSE)
 
 
-中文版说明文档[点这里](https://github.com/0xbug/Biu-framework/blob/master/README_zh.md)
-
-## Dependencies
+## 依赖
 
 Python3.x
 
-## INSTALL
+## 安装
 
 ```
 pip install -r requirements.txt
 ```
 
-## Usage
+## 用法
 
 ```
 usage: biu.py [-h] [-f F] [-d D] [-a A]
@@ -32,9 +30,9 @@ optional arguments:
   -a A        ip范围: 233.233.233.233/24
 ```
 
-## Plugin
+## 插件编写
 
-### Just like this 🚀
+### 插件格式
 
 ```
 {
