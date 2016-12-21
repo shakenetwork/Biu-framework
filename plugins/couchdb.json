@@ -1,6 +1,14 @@
 {
-    "name":"couchdb",
+    "name": "couchdb",
     "method": "GET",
-    "suffix":":5986/_utils/",
-    "hits":["Overview","Databases","couch"]
+    "port": [
+        5986,
+        5984
+    ],
+    "suffix": "/_utils/",
+    "hits": [
+        "Overview",
+        "Databases",
+        "couch"
+    ]
 }

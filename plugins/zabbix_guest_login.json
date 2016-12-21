@@ -1,0 +1,11 @@
+{
+    "name": "zabbix_guest_login",
+    "method": "GET",
+    "port": [
+        80
+    ],
+    "suffix": "/zabbix",
+    "hits": [
+        "Login as Guest"
+    ]
+}

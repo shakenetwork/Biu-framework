@@ -1,6 +1,11 @@
 {
     "name": "elasticsearch",
     "method": "GET",
-    "suffix": ":9200",
-    "hits": ["cluster_name"]
+    "port": [
+        9200
+    ],
+    "suffix": "_biu",
+    "hits": [
+        "illegal_argument_exception"
+    ]
 }

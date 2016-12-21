@@ -1,6 +1,11 @@
 {
-    "name":"DockerRemoteAPI",
+    "name": "DockerRemoteAPI",
     "method": "GET",
-    "suffix":":2375/info",
-    "hits":["Containers"]
+    "port": [
+        2375
+    ],
+    "suffix": "/info",
+    "hits": [
+        "Containers"
+    ]
 }

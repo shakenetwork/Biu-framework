@@ -1,6 +1,11 @@
 {
-    "name":"solr",
+    "name": "solr",
     "method": "GET",
-    "suffix":"/solr/",
-    "hits":["solr_path"]
+    "port": [
+        80
+    ],
+    "suffix": "/solr/",
+    "hits": [
+        "solr_path"
+    ]
 }

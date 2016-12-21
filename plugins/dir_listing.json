@@ -1,11 +1,11 @@
 {
-    "name": "mongod",
+    "name": "dir_listing",
     "method": "GET",
     "port": [
-        28017
+        80
     ],
     "suffix": "/",
     "hits": [
-        "SecsRunning"
+        "<title>Index of /"
     ]
 }

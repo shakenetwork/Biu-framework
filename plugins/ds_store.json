@@ -1,6 +1,11 @@
 {
-    "name":"DS_Store",
+    "name": "DS_Store",
     "method": "GET",
-    "suffix":"/.DS_Store",
-    "hits":["ShowSidebar"]
+    "port": [
+        80
+    ],
+    "suffix": "/.DS_Store",
+    "hits": [
+        "ShowSidebar"
+    ]
 }

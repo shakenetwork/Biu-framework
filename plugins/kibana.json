@@ -1,0 +1,11 @@
+{
+    "name": "kibana",
+    "method": "GET",
+    "port": [
+        5601
+    ],
+    "suffix": "/app/kibana",
+    "hits": [
+        "Kibana"
+    ]
+}

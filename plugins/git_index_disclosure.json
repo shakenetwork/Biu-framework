@@ -1,6 +1,9 @@
 {
-    "name": "git_disclosure",
+    "name": "git_index_disclosure",
     "method": "GET",
+    "port": [
+        80
+    ],
     "suffix": "/.git/config",
     "hits": [
         "repositoryformatversion"

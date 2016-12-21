@@ -1,6 +1,9 @@
 {
     "name": "Django Debug",
     "method": "GET",
+    "port": [
+        80
+    ],
     "suffix": "/_orange_/",
     "hits": [
         "URLconf"
