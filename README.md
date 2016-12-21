@@ -27,9 +27,9 @@ Biu~
 
 optional arguments:
   -h, --help  show this help message and exit
-  -f F        目标文件: 每行一个ip或域名
-  -d D        目标: example.com或233.233.233.233
-  -a A        ip范围: 233.233.233.233/24
+  -f F        target file: ip\n or host\n
+  -d D        target: host or ip
+  -a A        ipaddress: <ADDRESS>/<NETMASK>
 ```
 
 ## Plugin
@@ -38,10 +38,10 @@ optional arguments:
 
 ```
 {
-    "name":"", // 名字
-    "method": "GET", // 发包方式
-    "port": [8080], // 可能的端口
-    "suffix":"", // 目标的后缀
-    "hits":[""] // 命中规则
+    "name":"",
+    "method": "GET",
+    "port": [8080],
+    "suffix":"",
+    "hits":[""]
 }
 ```
