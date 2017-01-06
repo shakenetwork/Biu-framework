@@ -1,0 +1,11 @@
+{
+    "name": "codis",
+    "method": "GET",
+    "port": [
+        8080
+    ],
+    "suffix": "/admin/",
+    "hits": [
+        "codisServerGroupMainCtl"
+    ]
+}

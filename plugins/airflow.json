@@ -1,0 +1,11 @@
+{
+    "name": "airflow",
+    "method": "GET",
+    "port": [
+        8080
+    ],
+    "suffix": "/admin/",
+    "hits": [
+        "Airflow - DAGs"
+    ]
+}
