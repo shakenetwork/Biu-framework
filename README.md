@@ -6,7 +6,7 @@
 [![GitHub license](https://img.shields.io/badge/license-GPLv3-blue.svg)](https://raw.githubusercontent.com/0xbug/Biu-framework/master/LICENSE)
 
 
-中文版说明文档[点这里](https://github.com/0xbug/Biu-framework/blob/master/README_zh.md)
+[English Doc](https://github.com/0xbug/Biu-framework/blob/master/README.md) | [中文版说明文档](https://github.com/0xbug/Biu-framework/blob/master/README_zh.md)
 
 ## Dependencies
 
