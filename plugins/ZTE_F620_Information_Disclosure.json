@@ -1,0 +1,11 @@
+{
+    "name": "ZTE_F620_Information_Disclosure",
+    "method": "GET",
+    "port": [
+        80
+    ],
+    "suffix": "/manager_dev_defcfg_t.gch",
+    "hits": [
+        "Backup"
+    ]
+}

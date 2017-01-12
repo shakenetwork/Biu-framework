@@ -1,5 +1,5 @@
 {
-    "name": "couchdb",
+    "name": "couchdb_unauth",
     "method": "GET",
     "port": [
         5986,

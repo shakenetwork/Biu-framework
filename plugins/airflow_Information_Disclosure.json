@@ -1,5 +1,5 @@
 {
-    "name": "airflow",
+    "name": "airflow_Information_Disclosure",
     "method": "GET",
     "port": [
         8080

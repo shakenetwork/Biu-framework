@@ -1,5 +1,5 @@
 {
-    "name": "DockerRemoteAPI",
+    "name": "docker_remote_api",
     "method": "GET",
     "port": [
         2375
