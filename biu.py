@@ -45,7 +45,8 @@ def generate_url(target):
         with open(plugin) as f:
             plugin = json.load(f)
         if ':' in target:
-            add_suffix(target.split(':')[0], target.split(':')[1], plugin, urls)
+            add_suffix(
+                target.split(':')[0], target.split(':')[1], plugin, urls)
         elif plugin['port'] == [80]:
             add_suffix(target, 80, plugin, urls)
         else:
@@ -65,6 +66,7 @@ def add_suffix(target, port, plugin, urls):
 
 def audit(url, plugin):
     try:
+        available = False
         if plugin['method'] in ['GET']:
             http = requests.get
             response = http(url, timeout=1).text
@@ -75,11 +77,13 @@ def audit(url, plugin):
             if hit not in response:
                 pass
             else:
-                print('\033[0;92m[+]{}\t[{}]'.format(url, plugin['name']))
-                with open('reports/result_{}_{}.txt'.format(
-                        plugin['name'], today), 'a+') as result_file:
-                    result_file.writelines(url + '\n')
-                break
+                available = True
+        if available:
+            with open('reports/result_{}_{}.txt'.format(plugin['name'], today),
+                      'a+') as result_file:
+                result_file.writelines(url + '\n')
+            print('\033[0;92m[+]{}\t[{}]'.format(url, plugin['name']))
+        else:
             print('\033[0;31m[-] \033[0;29m{}'.format(url))
     except:
         pass
