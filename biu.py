@@ -44,14 +44,23 @@ def generate_url(target):
         urls = []
         with open(plugin) as f:
             plugin = json.load(f)
-        if plugin['port'] == [80]:
-            urls.append('http://{}{}'.format(target, plugin['suffix']))
+        if ':' in target:
+            add_suffix(target.split(':')[0], target.split(':')[1], plugin, urls)
+        elif plugin['port'] == [80]:
+            add_suffix(target, 80, plugin, urls)
         else:
             for port in plugin['port']:
-                urls.append('http://{}:{}{}'.format(target, port, plugin[
-                    'suffix']))
+                add_suffix(target, port, plugin, urls)
         for url in urls:
             audit(url, plugin)
+
+
+def add_suffix(target, port, plugin, urls):
+    if type(plugin['suffix']) == list:
+        for suffix in plugin['suffix']:
+            urls.append('http://{}:{}{}'.format(target, port, suffix))
+    else:
+        urls.append('http://{}:{}{}'.format(target, port, plugin['suffix']))
 
 
 def audit(url, plugin):
@@ -61,8 +70,7 @@ def audit(url, plugin):
             response = http(url, timeout=1).text
         else:
             http = requests.post
-        # response = http(url, timeout=1,verify=False).text
-            response = http(url, timeout=2,data=plugin['data']).text
+            response = http(url, timeout=2, data=plugin['data']).text
         for hit in plugin['hits']:
             if hit not in response:
                 pass
