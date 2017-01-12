@@ -1,0 +1,12 @@
+{
+    "name": "libsys_configfile",
+    "method": "GET",
+    "port": [
+        80,
+        8080
+    ],
+    "suffix": "/include/config.properties",
+    "hits": [
+        "indexDir"
+    ]
+}

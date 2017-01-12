@@ -1,5 +1,5 @@
 {
-    "name": "zabbix_jsrpc_injection",
+    "name": "zabbix_jsrpc_SQL_Injection",
     "method": "GET",
     "port": [
         80

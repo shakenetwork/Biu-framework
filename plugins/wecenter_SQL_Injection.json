@@ -1,5 +1,5 @@
 {
-    "name": "wecenter_injection",
+    "name": "wecenter_SQL_Injection",
     "method": "GET",
     "port": [
         80

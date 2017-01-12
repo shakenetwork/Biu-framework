@@ -1,5 +1,5 @@
 {
-    "name": "yongyou_zhiyuan_a6_injection",
+    "name": "yongyou_zhiyuan_a6_SQL_Injection",
     "method": "GET",
     "port": [
         80

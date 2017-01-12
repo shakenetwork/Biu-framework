@@ -58,10 +58,11 @@ def audit(url, plugin):
     try:
         if plugin['method'] in ['GET']:
             http = requests.get
+            response = http(url, timeout=1).text
         else:
             http = requests.post
         # response = http(url, timeout=1,verify=False).text
-        response = http(url, timeout=1).text
+            response = http(url, timeout=2,data=plugin['data']).text
         for hit in plugin['hits']:
             if hit not in response:
                 pass
