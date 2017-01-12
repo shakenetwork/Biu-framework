@@ -1,5 +1,5 @@
 {
-    "name": "zabbix_guest_login",
+    "name": "Zabbix_guest_login",
     "method": "GET",
     "port": [
         80

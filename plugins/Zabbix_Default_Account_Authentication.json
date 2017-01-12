@@ -1,0 +1,21 @@
+{
+    "name": "Zabbix_Default_Account_Authentication",
+    "method": "POST",
+    "port": [
+        80,
+        8080
+    ],
+    "suffix": [
+        "/index.php"
+    ],
+    "data": {
+        "request": "",
+        "name": "Admin",
+        "password": "zabbix",
+        "autologin": "1",
+        "enter": "Sign in"
+    },
+    "hits": [
+        "Connected as 'Admin'"
+    ]
+}
