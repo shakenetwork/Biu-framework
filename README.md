@@ -45,3 +45,25 @@ optional arguments:
     "hits":[""]
 }
 ```
+OR
+
+```
+{
+    "name": "",
+    "method": "POST",
+    "port": [
+        8080
+    ],
+    "suffix": [
+        "/",
+        "/maybe"
+    ],
+    "data": {
+        "username": "admin",
+        "password": "admin"
+    },
+    "hits": [
+        "Auto-Refresh"
+    ]
+}
+```
