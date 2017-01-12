@@ -98,13 +98,15 @@ if __name__ == '__main__':
         with open(domain_file, 'r') as f:
             for target in f.readlines():
                 target = target.strip('\n').strip('\t').strip(' ')
+                if 'http' in target:
+                    target = target.split('://')[1].split('/')[0]
                 p.apply_async(generate_url, (target, ))
                 p.apply_async(parse_crossdomain, (target, ))
         p.close()
         p.join()
     elif args.d:
         if 'http' in args.d:
-            args.d = args.d.split('://')[1]
+            args.d = args.d.split('://')[1].split('/')[0]
         generate_url(args.d)
     elif args.a:
         for target in ipaddress.IPv4Network(args.a):
