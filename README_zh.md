@@ -31,7 +31,7 @@ optional arguments:
   -h, --help  show this help message and exit
   -f F        目标文件: 每行一个ip或域名
   -d D        目标: example.com或233.233.233.233
-  -a A        ip范围: 233.233.233.233/24
+  -a A        ip范围: 233.233.233.0/24
 ```
 
 ## 插件编写

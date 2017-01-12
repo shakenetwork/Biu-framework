@@ -90,7 +90,7 @@ if __name__ == '__main__':
     parser = argparse.ArgumentParser(description='Biu~')
     parser.add_argument('-f', help='目标文件: 每行一个ip或域名')
     parser.add_argument('-d', help='目标: example.com或233.233.233.233')
-    parser.add_argument('-a', help='ip范围: 233.233.233.233/24')
+    parser.add_argument('-a', help='ip范围: 233.233.233.0/24')
     args = parser.parse_args()
     p = Pool(10)
     if args.f:
@@ -103,6 +103,8 @@ if __name__ == '__main__':
         p.close()
         p.join()
     elif args.d:
+        if 'http' in args.d:
+            args.d = args.d.split('://')[1]
         generate_url(args.d)
     elif args.a:
         for target in ipaddress.IPv4Network(args.a):
