@@ -21,7 +21,7 @@ pip install -r requirements.txt
 ## Usage
 
 ```
-usage: biu.py [-h] [-f F] [-d D] [-a A]
+usage: biu.py [-h] [-f F] [-d D] [-a A] [-p P]
 
 Biu~
 
@@ -30,6 +30,7 @@ optional arguments:
   -f F        target file: ip\n or host\n
   -d D        target: host or ip
   -a A        ipaddress: <ADDRESS>/<NETMASK>
+  -p P        plugin: plugins to scan
 ```
 
 ## Plugin

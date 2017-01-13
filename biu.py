@@ -90,12 +90,16 @@ def audit(url, plugin):
 
 
 if __name__ == '__main__':
-    plugins = glob.glob("./plugins/*.json")
     parser = argparse.ArgumentParser(description='Biu~')
     parser.add_argument('-f', help='目标文件: 每行一个ip或域名')
     parser.add_argument('-d', help='目标: example.com或233.233.233.233')
     parser.add_argument('-a', help='ip范围: 233.233.233.0/24')
+    parser.add_argument('-p', help='插件名称',default='plugins')
     args = parser.parse_args()
+    plugins = []
+    for plugin in glob.glob("./plugins/*.json"):
+        if args.p.lower() in plugin.lower():
+            plugins.append(plugin)
     p = Pool(10)
     if args.f:
         domain_file = args.f
