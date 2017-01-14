@@ -1,0 +1,11 @@
+{
+    "name": "NETSurveillance_login_bypass",
+    "method": "GET",
+    "port": [
+        80
+    ],
+    "suffix": "/DVR.htm",
+    "hits": [
+        "g_SoftWareVersion"
+    ]
+}
