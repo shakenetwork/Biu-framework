@@ -6,6 +6,6 @@
     ],
     "suffix": "/_orange_/",
     "hits": [
-        "URLconf"
+        "DEBUG = True"
     ]
 }

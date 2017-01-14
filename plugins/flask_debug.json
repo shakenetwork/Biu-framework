@@ -7,7 +7,6 @@
     ],
     "suffix": "/orangebiu",
     "hits": [
-        "werkzeug",
-        "Traceback"
+        "werkzeug.exceptions.NotFound"
     ]
 }
