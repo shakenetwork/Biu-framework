@@ -21,15 +21,15 @@ pip install -r requirements.txt
 ## Usage
 
 ```
-usage: biu.py [-h] [-f F] [-d D] [-a A] [-p P]
+usage: biu.py [-h] [-f F] [-t T] [-r R] [-p P]
 
 Biu~
 
 optional arguments:
   -h, --help  show this help message and exit
   -f F        target file: ip\n or host\n
-  -d D        target: host or ip
-  -a A        ipaddress: <ADDRESS>/<NETMASK>
+  -t T        target: host or ip
+  -r R        ipaddress range: <ADDRESS>/<NETMASK>
   -p P        plugin: plugins to scan
 ```
 
@@ -64,7 +64,7 @@ OR
         "password": "admin"
     },
     "hits": [
-        "Auto-Refresh"
+        "success"
     ]
 }
 ```

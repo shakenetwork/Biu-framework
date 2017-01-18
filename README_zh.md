@@ -23,15 +23,15 @@ pip install -r requirements.txt
 ## 用法
 
 ```
-usage: biu.py [-h] [-f F] [-d D] [-a A] [-p P]
+usage: biu.py [-h] [-f F] [-t T] [-r R] [-p P]
 
 Biu~
 
 optional arguments:
   -h, --help  show this help message and exit
   -f F        目标文件: 每行一个ip或域名
-  -d D        目标: example.com或233.233.233.233
-  -a A        ip范围: 233.233.233.0/24
+  -t T        目标: example.com或233.233.233.233
+  -r R        ip范围: 233.233.233.0/24
   -p P        插件: 单独扫描某些插件
 
 ```
@@ -68,7 +68,7 @@ optional arguments:
         "password": "admin"
     },
     "hits": [
-        "Auto-Refresh"
+        "success"
     ]
 }
 ```
