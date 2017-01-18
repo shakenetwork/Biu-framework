@@ -6,33 +6,14 @@ import argparse
 import datetime
 import glob
 import json
-import os
 from multiprocessing import Pool
-from xml.etree.ElementTree import ParseError
 
 import ipaddress
 import requests
 
-import defusedxml.cElementTree as ET
-
 today = str(datetime.datetime.today()).split(' ')[0].replace('-', '.')
 
 targets = []
-
-
-def parse_crossdomain(target):
-    url = 'http://{}/crossdomain.xml'.format(target)
-    response = requests.get(url, timeout=1).text
-    try:
-        response = requests.get(url, timeout=1).text
-        if "cross-domain-policy" in response:
-            dom = ET.fromstring(response)
-            elems = dom.findall(".//allow-access-from")
-            for el in elems:
-                target = el.get('domain').replace('*', 'www')
-                generate_url(target)
-    except:
-        pass
 
 
 def generate_url(target):
@@ -82,7 +63,8 @@ def audit(url, plugin):
             with open('reports/result_{}_{}.txt'.format(plugin['name'], today),
                       'a+') as result_file:
                 result_file.writelines(url + '\n')
-            print('\033[0;92m[+] {}\t[{}]\033[0;29m'.format(url, plugin['name']))
+            print('\033[0;92m[+] {}\t[{}]\033[0;29m'.format(url, plugin[
+                'name']))
         else:
             print('\033[0;31m[-] \033[0;29m{}'.format(url))
     except:
@@ -92,9 +74,9 @@ def audit(url, plugin):
 if __name__ == '__main__':
     parser = argparse.ArgumentParser(description='Biu~')
     parser.add_argument('-f', help='目标文件: 每行一个ip或域名')
-    parser.add_argument('-d', help='目标: example.com或233.233.233.233')
-    parser.add_argument('-a', help='ip范围: 233.233.233.0/24')
-    parser.add_argument('-p', help='插件名称',default='plugins')
+    parser.add_argument('-t', help='目标: example.com或233.233.233.233')
+    parser.add_argument('-r', help='ip范围: 233.233.233.0/24')
+    parser.add_argument('-p', help='插件名称', default='plugins')
     args = parser.parse_args()
     plugins = []
     for plugin in glob.glob("./plugins/*.json"):
@@ -102,24 +84,22 @@ if __name__ == '__main__':
             plugins.append(plugin)
     p = Pool(10)
     if args.f:
-        domain_file = args.f
-        with open(domain_file, 'r') as f:
+        targets_file = args.f
+        with open(targets_file, 'r') as f:
             for target in f.readlines():
                 target = target.strip('\n').strip('\t').strip(' ')
                 if 'http' in target:
                     target = target.split('://')[1].split('/')[0]
                 p.apply_async(generate_url, (target, ))
-                p.apply_async(parse_crossdomain, (target, ))
         p.close()
         p.join()
-    elif args.d:
-        if 'http' in args.d:
-            args.d = args.d.split('://')[1].split('/')[0]
-        generate_url(args.d)
-    elif args.a:
-        for target in ipaddress.IPv4Network(args.a):
+    elif args.t:
+        if 'http' in args.t:
+            args.t = args.t.split('://')[1].split('/')[0]
+        generate_url(args.t)
+    elif args.r:
+        for target in ipaddress.IPv4Network(args.r):
             p.apply_async(generate_url, (str(target), ))
-            p.apply_async(parse_crossdomain, (str(target), ))
         p.close()
         p.join()
     else:
