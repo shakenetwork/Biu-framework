@@ -88,13 +88,13 @@ if __name__ == '__main__':
         with open(targets_file, 'r') as f:
             for target in f.readlines():
                 target = target.strip('\n').strip('\t').strip(' ')
-                if 'http' in target:
+                if '://' in target:
                     target = target.split('://')[1].split('/')[0]
                 p.apply_async(generate_url, (target, ))
         p.close()
         p.join()
     elif args.t:
-        if 'http' in args.t:
+        if '://' in args.t:
             args.t = args.t.split('://')[1].split('/')[0]
         generate_url(args.t)
     elif args.r:
