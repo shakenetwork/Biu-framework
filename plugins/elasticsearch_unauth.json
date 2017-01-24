@@ -2,10 +2,11 @@
     "name": "elasticsearch",
     "method": "GET",
     "port": [
+        80,
         9200
     ],
-    "suffix": "/_biu",
+    "suffix": "/_alias",
     "hits": [
-        "illegal_argument_exception"
+        "aliases"
     ]
 }

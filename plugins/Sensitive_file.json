@@ -1,0 +1,22 @@
+{
+    "name": "Sensitive_file",
+    "method": "GET",
+    "port": [
+        80
+    ],
+    "suffix": "/",
+    "hits": [
+        "bak",
+        "database",
+        "web.rar",
+        "web.zip",
+        "db.zip",
+        "db.rar",
+        "password.txt",
+        ".sql",
+        ".log",
+        ".MYD",
+        ".MYI",
+        ".frm"
+    ]
+}

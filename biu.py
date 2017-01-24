@@ -60,7 +60,7 @@ def audit(url, plugin):
             else:
                 available = True
         if available:
-            with open('reports/result_{}_{}.txt'.format(plugin['name'], today),
+            with open('reports/{}_result_{}.txt'.format(plugin['name'], today),
                       'a+') as result_file:
                 result_file.writelines(url + '\n')
             print('\033[0;92m[+] {}\t[{}]\033[0;29m'.format(url, plugin[
