@@ -76,7 +76,7 @@ def handlefile(targets_file):
     with open(targets_file, 'r') as f:
         content = f.readlines()
         if 'masscan' in content[0]:
-                for target in content[1:-2]:
+                for target in content[1:-1]:
                     ipport = target.split(' ')[2:4]
                     ipport.reverse()
                     targets.append(':'.join(ipport))
