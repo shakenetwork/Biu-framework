@@ -4,7 +4,10 @@
     "port": [
         80
     ],
-    "suffix": "/solr/",
+    "suffix": [
+        "/solr/",
+        "/"
+    ],
     "hits": [
         "Solr Admin"
     ]

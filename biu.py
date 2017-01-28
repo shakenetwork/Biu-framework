@@ -10,6 +10,7 @@ from multiprocessing import Pool
 
 import ipaddress
 import requests
+from requests.auth import HTTPBasicAuth
 
 today = str(datetime.datetime.today()).split(' ')[0].replace('-', '.')
 
@@ -70,6 +71,22 @@ def audit(url, plugin):
     except:
         pass
 
+def handlefile(targets_file):
+    targets = []
+    with open(targets_file, 'r') as f:
+        content = f.readlines()
+        if 'masscan' in content[0]:
+                for target in content[1:-2]:
+                    ipport = target.split(' ')[2:4]
+                    ipport.reverse()
+                    targets.append(':'.join(ipport))
+        else:
+            for target in content:
+                target = target.strip('\n').strip('\t').strip(' ')
+                if '://' in target:
+                    target = target.split('://')[1].split('/')[0]
+                    targets.append(target)
+    return targets
 
 if __name__ == '__main__':
     parser = argparse.ArgumentParser(description='Biu~')
@@ -85,12 +102,9 @@ if __name__ == '__main__':
     p = Pool(10)
     if args.f:
         targets_file = args.f
-        with open(targets_file, 'r') as f:
-            for target in f.readlines():
-                target = target.strip('\n').strip('\t').strip(' ')
-                if '://' in target:
-                    target = target.split('://')[1].split('/')[0]
-                p.apply_async(generate_url, (target, ))
+        tagets =  handlefile(targets_file)
+        for target in tagets:
+            p.apply_async(generate_url, (target, ))
         p.close()
         p.join()
     elif args.t:
