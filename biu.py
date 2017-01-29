@@ -95,6 +95,8 @@ def handlefile(targets_file):
                 if '://' in target:
                     target = target.split('://')[1].split('/')[0]
                     targets.append(target)
+                else:
+                    targets.append(target)
     return targets
 
 if __name__ == '__main__':
