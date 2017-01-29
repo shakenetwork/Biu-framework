@@ -7,7 +7,7 @@ import datetime
 import glob
 import json
 from multiprocessing import Pool
-
+from pprint import pprint
 import ipaddress
 import requests
 from requests.auth import HTTPBasicAuth
@@ -50,20 +50,18 @@ def audit(url, plugin):
         available = False
         if plugin['method'] in ['GET']:
             http = requests.get
-            response = http(url, timeout=1).text
+            response = http(url, timeout=timeout).text
         else:
             http = requests.post
             if 'headers' in plugin.keys():
-                if plugin['headers'] == {
-        "Content-Type": "application/json"
-    }:
-                    response = http(url, timeout=2, data=json.dumps(plugin['data']), headers=plugin['headers']).text
+                if plugin['headers'] == {"Content-Type": "application/json"}:
+                    response = http(url, timeout=timeout, data=json.dumps(plugin['data']), headers=plugin['headers']).text
                 else:
-                    response = http(url, timeout=2, data=plugin['data'], headers=plugin['headers']).text
+                    response = http(url, timeout=timeout, data=plugin['data'], headers=plugin['headers']).text
             else:
-                response = http(url, timeout=2, data=plugin['data']).text
+                response = http(url, timeout=timeout, data=plugin['data']).text
         if debug:
-            print(response)
+            pprint(response)
         for hit in plugin['hits']:
             if hit not in response:
                 pass
@@ -106,8 +104,10 @@ if __name__ == '__main__':
     parser.add_argument('-r', help='ip范围: 233.233.233.0/24')
     parser.add_argument('-p', help='插件名称', default='plugins')
     parser.add_argument('-d', help='Debug', default=0)
+    parser.add_argument('-T', help='超时时间', default=3)
     args = parser.parse_args()
     debug = args.d
+    timeout = args.T
     plugins = []
     for plugin in glob.glob("./plugins/*.json"):
         if args.p.lower() in plugin.lower():
