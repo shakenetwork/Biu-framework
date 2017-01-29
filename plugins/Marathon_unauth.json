@@ -1,0 +1,16 @@
+{
+    "name": "Marathon_unauth",
+    "method": "GET",
+    "port": [
+        80,
+        8080
+    ],
+    "suffix": [
+        "/v2/queue"
+    ],
+    "hits": [
+        "portDefinitions",
+        "healthChecks",
+        "{\"queue\":[]}"
+    ]
+}
