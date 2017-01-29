@@ -103,7 +103,7 @@ if __name__ == '__main__':
     parser.add_argument('-t', help='目标: example.com或233.233.233.233')
     parser.add_argument('-r', help='ip范围: 233.233.233.0/24')
     parser.add_argument('-p', help='插件名称', default='plugins')
-    parser.add_argument('-d', help='Debug', default='0')
+    parser.add_argument('-d', help='Debug', default=0)
     args = parser.parse_args()
     debug = args.d
     plugins = []
