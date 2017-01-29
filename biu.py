@@ -13,7 +13,6 @@ import requests
 from requests.auth import HTTPBasicAuth
 
 today = str(datetime.datetime.today()).split(' ')[0].replace('-', '.')
-
 targets = []
 
 
@@ -54,7 +53,17 @@ def audit(url, plugin):
             response = http(url, timeout=1).text
         else:
             http = requests.post
-            response = http(url, timeout=2, data=plugin['data']).text
+            if 'headers' in plugin.keys():
+                if plugin['headers'] == {
+        "Content-Type": "application/json"
+    }:
+                    response = http(url, timeout=2, data=json.dumps(plugin['data']), headers=plugin['headers']).text
+                else:
+                    response = http(url, timeout=2, data=plugin['data'], headers=plugin['headers']).text
+            else:
+                response = http(url, timeout=2, data=plugin['data']).text
+        if debug:
+            print(response)
         for hit in plugin['hits']:
             if hit not in response:
                 pass
@@ -94,7 +103,9 @@ if __name__ == '__main__':
     parser.add_argument('-t', help='目标: example.com或233.233.233.233')
     parser.add_argument('-r', help='ip范围: 233.233.233.0/24')
     parser.add_argument('-p', help='插件名称', default='plugins')
+    parser.add_argument('-d', help='Debug', default='0')
     args = parser.parse_args()
+    debug = args.d
     plugins = []
     for plugin in glob.glob("./plugins/*.json"):
         if args.p.lower() in plugin.lower():
