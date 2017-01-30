@@ -110,8 +110,9 @@ if __name__ == '__main__':
     timeout = args.T
     plugins = []
     for plugin in glob.glob("./plugins/*.json"):
-        if args.p.lower() in plugin.lower():
-            plugins.append(plugin)
+        for p in args.p.lower().split(','):
+            if p in plugin.lower():
+                plugins.append(plugin)
     p = Pool(10)
     if args.f:
         targets_file = args.f
