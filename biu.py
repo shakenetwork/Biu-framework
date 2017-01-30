@@ -48,7 +48,20 @@ def add_suffix(target, port, plugin, urls):
 def audit(url, plugin):
     try:
         available = False
-        if plugin['method'] in ['GET']:
+        if plugin['method'] in ['AUTH']:
+            http = requests.get
+            for data in plugin['data']:
+                reqresult = http(url, timeout=timeout,auth=(data['user'],data['pass']))
+                if 'hits' in plugin.keys():
+                    response = reqresult.text
+                else:
+                    httpcode = reqresult.status_code
+                    if httpcode != 401:
+                        available = True
+                        print('\033[0;92m[+] {}\t[{}--{}]\033[0;29m'.format(url, plugin['name'],data))
+                        with open('reports/{}_result_{}.txt'.format(today,plugin['name']),'a+') as result_file:
+                            result_file.writelines(data + '\t' + url + '\n')
+        elif plugin['method'] in ['GET']:
             http = requests.get
             response = http(url, timeout=timeout).text
         else:
@@ -62,18 +75,17 @@ def audit(url, plugin):
                 response = http(url, timeout=timeout, data=plugin['data']).text
         if debug:
             pprint(response)
-        for hit in plugin['hits']:
-            if hit not in response:
-                pass
-            else:
-                available = True
-        if available:
-            with open('reports/{}_result_{}.txt'.format(today,plugin['name']),
+        if 'hits' in plugin.keys():
+            for hit in plugin['hits']:
+                if hit not in response:
+                    pass
+                else:
+                    available = True
+                    print('\033[0;92m[+] {}\t[{}]\033[0;29m'.format(url, plugin['name']))
+                    with open('reports/{}_result_{}.txt'.format(today,plugin['name']),
                       'a+') as result_file:
-                result_file.writelines(url + '\n')
-            print('\033[0;92m[+] {}\t[{}]\033[0;29m'.format(url, plugin[
-                'name']))
-        else:
+                      result_file.writelines(url + '\n')
+        if not available:
             print('\033[0;31m[-] \033[0;29m{}'.format(url))
     except:
         pass
