@@ -2,7 +2,6 @@
     "name": "Marathon_unauth",
     "method": "GET",
     "port": [
-        80,
         8080
     ],
     "suffix": [
