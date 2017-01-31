@@ -2,7 +2,6 @@
     "name": "elasticsearch",
     "method": "GET",
     "port": [
-        80,
         9200
     ],
     "suffix": "/_alias",
