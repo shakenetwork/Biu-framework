@@ -2,10 +2,12 @@
     "name": "kibana_unauth",
     "method": "GET",
     "port": [
+        80,
         5601
     ],
-    "suffix": "/app/kibana",
+    "suffix": "/status",
     "hits": [
-        "Kibana"
+        "Kibana",
+        "kibanaWelcomeView"
     ]
 }
