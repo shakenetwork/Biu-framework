@@ -84,13 +84,12 @@ def audit(url, plugin):
                     content = url + '\n'
                     savereport(plugin,content)
 
-        if not available and debug:
+        if not available:
             print('\033[0;31m[-] \033[0;29m{}'.format(url))
     except:
         pass
 
 def savereport(plugin,content):
-    pprint(content)
     reportpath = 'reports/{}_result_{}.txt'.format(today,plugin['name'])
     if not os.path.exists(reportpath):
         with open(reportpath,'a+') as result_file:
