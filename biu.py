@@ -6,6 +6,7 @@ import argparse
 import datetime
 import glob
 import json
+import os
 from multiprocessing import Pool
 from pprint import pprint
 import ipaddress
@@ -36,7 +37,6 @@ def generate_url(target):
         for url in urls:
             audit(url, plugin)
 
-
 def add_suffix(target, port, plugin, urls):
     if type(plugin['suffix']) == list:
         for suffix in plugin['suffix']:
@@ -59,8 +59,8 @@ def audit(url, plugin):
                     if httpcode != 401:
                         available = True
                         print('\033[0;92m[+] {}\t[{}--{}]\033[0;29m'.format(url, plugin['name'],data))
-                        with open('reports/{}_result_{}.txt'.format(today,plugin['name']),'a+') as result_file:
-                            result_file.writelines(data + '\t' + url + '\n')
+                        content = data + '\t' + url + '\n'
+                        savereport(plugin,content)
         elif plugin['method'] in ['GET']:
             http = requests.get
             response = http(url, timeout=timeout).text
@@ -81,14 +81,26 @@ def audit(url, plugin):
                     pass
                 else:
                     available = True
-                    print('\033[0;92m[+] {}\t[{}]\033[0;29m'.format(url, plugin['name']))
-                    with open('reports/{}_result_{}.txt'.format(today,plugin['name']),
-                      'a+') as result_file:
-                      result_file.writelines(url + '\n')
-        if not available:
+                    content = url + '\n'
+                    savereport(plugin,content)
+
+        if not available and debug:
             print('\033[0;31m[-] \033[0;29m{}'.format(url))
     except:
         pass
+
+def savereport(plugin,content):
+    pprint(content)
+    reportpath = 'reports/{}_result_{}.txt'.format(today,plugin['name'])
+    if not os.path.exists(reportpath):
+        with open(reportpath,'a+') as result_file:
+            result_file.writelines(content)
+            return
+    with open(reportpath,'r') as result_file:
+        if content in result_file.readlines():
+            return
+    with open(reportpath,'a+') as result_file:
+        result_file.writelines(content)
 
 def handlefile(targets_file):
     targets = []
@@ -121,11 +133,13 @@ if __name__ == '__main__':
     debug = args.d
     timeout = args.T
     plugins = []
+    if not os.path.exists('reports'):
+        os.system('mkdir reports')
     for plugin in glob.glob("./plugins/*.json"):
         for p in args.p.lower().split(','):
             if p in plugin.lower():
                 plugins.append(plugin)
-    p = Pool(10)
+    p = Pool(100)
     if args.f:
         targets_file = args.f
         tagets =  handlefile(targets_file)
