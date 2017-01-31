@@ -81,7 +81,7 @@ def audit(url, plugin):
                     pass
                 else:
                     available = True
-                    print('\033[0;92m[+] {}\t[{}]\033[0;29m'.format(url, plugin['name'])
+                    print('\033[0;92m[+] {}\t[{}]\033[0;29m'.format(url, plugin['name']))
                     content = url + '\n'
                     savereport(plugin,content)
 
