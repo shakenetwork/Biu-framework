@@ -68,3 +68,29 @@ OR
     ]
 }
 ```
+
+OR
+
+```
+{
+    "name": "RabbitMQManagement_guest",
+    "method": "AUTH",
+    "port": [
+        80,
+        8080
+    ],
+    "suffix": [
+        "/api/whoami"
+    ],
+    "data": [
+        {
+            "user": "guest",
+            "pass": "guest"
+        }
+    ],
+    "hits": [
+        "\"tags\":\"administrator\""
+    ]
+}
+
+```
