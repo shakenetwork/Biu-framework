@@ -52,10 +52,7 @@ def audit(url, plugin):
             http = requests.get
             for data in plugin['data']:
                 reqresult = http(url, timeout=timeout,auth=(data['user'],data['pass']))
-                if not reqresult.headers.get('WWW-Authenticate'):
-                    return
                 if 'hits' in plugin.keys():
-                    print(reqresult.status_code)
                     response = reqresult.text
                 else:
                     httpcode = reqresult.status_code
