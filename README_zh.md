@@ -49,6 +49,15 @@ python biu.py -p elastic -r 1.1.1.0/24
 python biu.py -p elastic,kibana -r 1.1.1.0/24
 python biu.py -p elastic -t 1.1.1.1:9200 -d 1
 ```
+
+## 快速扫描 🚀
+
+Biu-framework `-f` 参数支持 [masscan](https://github.com/robertdavidgraham/masscan) 结果文件(`-oL`)
+
+```
+masscan -p9200,5601 --rate=1000 10.10.0.0/16 -oL targets.txt
+python biu.py -p elasticsearch,kibana -f targets.txt
+```
 ## 扫描结果
 
 扫描结果保存在 `./reports` 目录下，格式: `2017.01.01_插件名称.txt`

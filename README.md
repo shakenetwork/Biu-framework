@@ -48,6 +48,16 @@ python biu.py -p elastic,kibana -r 1.1.1.0/24
 python biu.py -p elastic -t 1.1.1.1:9200 -d 1
 ```
 
+## Quick scan with masscan 🚀
+
+Biu-framework `-f` argument support scan results of [masscan](https://github.com/robertdavidgraham/masscan) via `-oL`
+
+```
+masscan -p9200,5601 --rate=1000 10.10.0.0/16 -oL targets.txt
+python biu.py -p elasticsearch,kibana -f targets.txt
+
+```
+
 ## Report
 
 The scan report is in the `./reports` directory, formate: `today_pluginname.txt`
