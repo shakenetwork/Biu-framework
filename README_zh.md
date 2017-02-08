@@ -23,7 +23,7 @@ pip install -r requirements.txt
 ## 用法
 
 ```
-usage: biu.py [-h] [-f F] [-t T] [-r R] [-p P] [-d D] [-T T]
+usage: biu.py [-h] [-f F] [-t T] [-r R] [-p P] [-ps PS] [-d D] [-T T]
 
 Biu~
 
@@ -33,6 +33,7 @@ optional arguments:
   -t T        目标: example.com或233.233.233.233
   -r R        ip范围: 233.233.233.0/24
   -p P        插件名称
+  -ps PS      插件搜索
   -d D        Debug
   -T T        超时时间
 

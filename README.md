@@ -32,6 +32,7 @@ optional arguments:
   -t T        target: host or ip
   -r R        ipaddress range: <ADDRESS>/<NETMASK>
   -p P        plugin: plugins to scan
+  -ps PS      plugins search
   -d D        Debug
   -T T        Timeout
 
