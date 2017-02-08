@@ -5,7 +5,7 @@
 [![Python 3.x](https://img.shields.io/badge/python-3.x-yellow.svg)](https://www.python.org/) 
 [![GitHub license](https://img.shields.io/badge/license-GPLv3-blue.svg)](https://raw.githubusercontent.com/0xbug/Biu-framework/master/LICENSE)
 
-> 漏洞扫描框架
+> 企业内网基础服务安全扫描框架
 
 [English Doc](https://github.com/0xbug/Biu-framework/blob/master/README.md) | [中文版说明文档](https://github.com/0xbug/Biu-framework/blob/master/README_zh.md)
 
@@ -23,7 +23,7 @@ pip install -r requirements.txt
 ## 用法
 
 ```
-usage: biu.py [-h] [-f F] [-t T] [-r R] [-p P]
+usage: biu.py [-h] [-f F] [-t T] [-r R] [-p P] [-d D] [-T T]
 
 Biu~
 
@@ -32,7 +32,9 @@ optional arguments:
   -f F        目标文件: 每行一个ip或域名
   -t T        目标: example.com或233.233.233.233
   -r R        ip范围: 233.233.233.0/24
-  -p P        插件: 单独扫描某些插件
+  -p P        插件名称
+  -d D        Debug
+  -T T        超时时间
 
 ```
 

@@ -5,6 +5,7 @@
 [![Python 3.x](https://img.shields.io/badge/python-3.x-yellow.svg)](https://www.python.org/) 
 [![GitHub license](https://img.shields.io/badge/license-GPLv3-blue.svg)](https://raw.githubusercontent.com/0xbug/Biu-framework/master/LICENSE)
 
+> Enterprise Intranet Base Services Security Scan Framework
 
 [English Doc](https://github.com/0xbug/Biu-framework/blob/master/README.md) | [中文版说明文档](https://github.com/0xbug/Biu-framework/blob/master/README_zh.md)
 
@@ -21,7 +22,7 @@ pip install -r requirements.txt
 ## Usage
 
 ```
-usage: biu.py [-h] [-f F] [-t T] [-r R] [-p P]
+usage: biu.py [-h] [-f F] [-t T] [-r R] [-p P] [-d D] [-T T]
 
 Biu~
 
@@ -31,6 +32,9 @@ optional arguments:
   -t T        target: host or ip
   -r R        ipaddress range: <ADDRESS>/<NETMASK>
   -p P        plugin: plugins to scan
+  -d D        Debug
+  -T T        Timeout
+
 ```
 
 ## Plugin
