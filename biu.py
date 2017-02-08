@@ -91,7 +91,7 @@ def audit(url, plugin):
         pass
 
 def savereport(plugin,content):
-    reportpath = 'reports/{}_result_{}.txt'.format(today,plugin['name'])
+    reportpath = 'reports/{}_{}.txt'.format(today,plugin['name'])
     if not os.path.exists(reportpath):
         with open(reportpath,'a+') as result_file:
             result_file.writelines(content)
