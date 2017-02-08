@@ -38,6 +38,17 @@ optional arguments:
 
 ```
 
+✨🍰✨支持扫描方式:
+
+```
+python biu.py -p elasticsearch -f target/elasticsearch.txt
+python biu.py -p elastic -t 1.1.1.1:9200
+python biu.py -p elastic -t 1.1.1.1
+python biu.py -p elastic -r 1.1.1.0/24
+python biu.py -p elastic,kibana -r 1.1.1.0/24
+python biu.py -p elastic -t 1.1.1.1:9200 -d 1
+```
+
 ## 插件编写
 
 ### 插件格式
