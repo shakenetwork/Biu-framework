@@ -47,6 +47,10 @@ python biu.py -p elastic,kibana -r 1.1.1.0/24
 python biu.py -p elastic -t 1.1.1.1:9200 -d 1
 ```
 
+## Report
+
+The scan report is in the `./reports` directory, formate: `today_pluginname.txt`
+
 ## Plugin
 
 ### Just like this 🚀

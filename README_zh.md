@@ -48,6 +48,9 @@ python biu.py -p elastic -r 1.1.1.0/24
 python biu.py -p elastic,kibana -r 1.1.1.0/24
 python biu.py -p elastic -t 1.1.1.1:9200 -d 1
 ```
+## 扫描结果
+
+扫描结果保存在 `./reports` 目录下，格式: `2017.01.01_插件名称.txt`
 
 ## 插件编写
 
