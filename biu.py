@@ -16,6 +16,9 @@ from requests.auth import HTTPBasicAuth
 today = str(datetime.datetime.today()).split(' ')[0].replace('-', '.')
 targets = []
 
+green = '\033[0;92m{}\033[0;29m'
+red = '\033[0;31m{}\033[0;29m'
+
 
 def generate_url(target):
     if target in targets:
@@ -37,6 +40,7 @@ def generate_url(target):
         for url in urls:
             audit(url, plugin)
 
+
 def add_suffix(target, port, plugin, urls):
     if type(plugin['suffix']) == list:
         for suffix in plugin['suffix']:
@@ -51,16 +55,18 @@ def audit(url, plugin):
         if plugin['method'] in ['AUTH']:
             http = requests.get
             for data in plugin['data']:
-                reqresult = http(url, timeout=timeout,auth=(data['user'],data['pass']))
+                reqresult = http(url, timeout=timeout,
+                                 auth=(data['user'], data['pass']))
                 if 'hits' in plugin.keys():
                     response = reqresult.text
                 else:
                     httpcode = reqresult.status_code
                     if httpcode != 401:
                         available = True
-                        print('\033[0;92m[+] {}\t[{}--{}]\033[0;29m'.format(url, plugin['name'],data))
+                        print(
+                            '\033[0;92m[+] {}\t[{}--{}]\033[0;29m'.format(url, plugin['name'], data))
                         content = data + '\t' + url + '\n'
-                        savereport(plugin,content)
+                        savereport(plugin, content)
         elif plugin['method'] in ['GET']:
             http = requests.get
             response = http(url, timeout=timeout).text
@@ -68,9 +74,11 @@ def audit(url, plugin):
             http = requests.post
             if 'headers' in plugin.keys():
                 if plugin['headers'] == {"Content-Type": "application/json"}:
-                    response = http(url, timeout=timeout, data=json.dumps(plugin['data']), headers=plugin['headers']).text
+                    response = http(url, timeout=timeout, data=json.dumps(
+                        plugin['data']), headers=plugin['headers']).text
                 else:
-                    response = http(url, timeout=timeout, data=plugin['data'], headers=plugin['headers']).text
+                    response = http(url, timeout=timeout, data=plugin[
+                                    'data'], headers=plugin['headers']).text
             else:
                 response = http(url, timeout=timeout, data=plugin['data']).text
         if debug:
@@ -81,36 +89,39 @@ def audit(url, plugin):
                     pass
                 else:
                     available = True
-                    print('\033[0;92m[+] {}\t[{}]\033[0;29m'.format(url, plugin['name']))
+                    print(
+                        '\033[0;92m[+] {}\t[{}]\033[0;29m'.format(url, plugin['name']))
                     content = url + '\n'
-                    savereport(plugin,content)
+                    savereport(plugin, content)
 
         if not available:
             print('\033[0;31m[-] \033[0;29m{}'.format(url))
     except:
         pass
 
-def savereport(plugin,content):
-    reportpath = 'reports/{}_{}.txt'.format(today,plugin['name'])
+
+def savereport(plugin, content):
+    reportpath = 'reports/{}_{}.txt'.format(today, plugin['name'])
     if not os.path.exists(reportpath):
-        with open(reportpath,'a+') as result_file:
+        with open(reportpath, 'a+') as result_file:
             result_file.writelines(content)
             return
-    with open(reportpath,'r') as result_file:
+    with open(reportpath, 'r') as result_file:
         if content in result_file.readlines():
             return
-    with open(reportpath,'a+') as result_file:
+    with open(reportpath, 'a+') as result_file:
         result_file.writelines(content)
+
 
 def handlefile(targets_file):
     targets = []
     with open(targets_file, 'r') as f:
         content = f.readlines()
         if 'masscan' in content[0]:
-                for target in content[1:-1]:
-                    ipport = target.split(' ')[2:4]
-                    ipport.reverse()
-                    targets.append(':'.join(ipport))
+            for target in content[1:-1]:
+                ipport = target.split(' ')[2:4]
+                ipport.reverse()
+                targets.append(':'.join(ipport))
         else:
             for target in content:
                 target = target.strip('\n').strip('\t').strip(' ')
@@ -121,28 +132,39 @@ def handlefile(targets_file):
                     targets.append(target)
     return targets
 
+
+def plugin_search():
+    plugins = []
+    for plugin in glob.glob("./plugins/*.json"):
+        for p in args.p.lower().split(','):
+            if p in plugin.lower():
+                plugins.append(plugin)
+    return plugins
 if __name__ == '__main__':
     parser = argparse.ArgumentParser(description='Biu~')
     parser.add_argument('-f', help='目标文件: 每行一个ip或域名')
     parser.add_argument('-t', help='目标: example.com或233.233.233.233')
     parser.add_argument('-r', help='ip范围: 233.233.233.0/24')
     parser.add_argument('-p', help='插件名称', default='plugins')
+    parser.add_argument('-ps', help='插件搜索')
     parser.add_argument('-d', help='Debug', default=0)
     parser.add_argument('-T', help='超时时间', default=3)
     args = parser.parse_args()
     debug = args.d
     timeout = args.T
-    plugins = []
     if not os.path.exists('reports'):
         os.system('mkdir reports')
-    for plugin in glob.glob("./plugins/*.json"):
-        for p in args.p.lower().split(','):
-            if p in plugin.lower():
-                plugins.append(plugin)
+    if args.ps:
+        args.p = args.ps
+        plugins = plugin_search()
+        print(green.format('Total:{}\n{}'.format(
+            len(plugins), [p.split('/')[2] for p in plugins])))
+        exit(0)
+    plugins = plugin_search()
     p = Pool(100)
     if args.f:
         targets_file = args.f
-        tagets =  handlefile(targets_file)
+        tagets = handlefile(targets_file)
         for target in tagets:
             p.apply_async(generate_url, (target, ))
         p.close()
