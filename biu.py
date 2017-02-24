@@ -13,11 +13,10 @@ import ipaddress
 import requests
 from requests.auth import HTTPBasicAuth
 
-today = str(datetime.datetime.today()).split(' ')[0].replace('-', '.')
+TODAY = str(datetime.datetime.today()).split(' ')[0].replace('-', '.')
+GREEN = '\033[0;92m{}\033[0;29m'
+RED = '\033[0;31m{}\033[0;29m'
 targets = []
-
-green = '\033[0;92m{}\033[0;29m'
-red = '\033[0;31m{}\033[0;29m'
 
 
 def generate_url(target):
@@ -51,7 +50,7 @@ def add_suffix(target, port, plugin, urls):
 
 def audit(url, plugin):
     try:
-        available = False
+        vulnerable = False
         if plugin['method'] in ['AUTH']:
             http = requests.get
             for data in plugin['data']:
@@ -62,7 +61,7 @@ def audit(url, plugin):
                 else:
                     httpcode = reqresult.status_code
                     if httpcode != 401:
-                        available = True
+                        vulnerable = True
                         print(
                             '\033[0;92m[+] {}\t[{}--{}]\033[0;29m'.format(url, plugin['name'], data))
                         content = data + '\t' + url + '\n'
@@ -88,20 +87,20 @@ def audit(url, plugin):
                 if hit not in response:
                     pass
                 else:
-                    available = True
+                    vulnerable = True
                     print(
                         '\033[0;92m[+] {}\t[{}]\033[0;29m'.format(url, plugin['name']))
                     content = url + '\n'
                     savereport(plugin, content)
 
-        if not available:
+        if not vulnerable:
             print('\033[0;31m[-] \033[0;29m{}'.format(url))
     except:
         pass
 
 
 def savereport(plugin, content):
-    reportpath = 'reports/{}_{}.txt'.format(today, plugin['name'])
+    reportpath = 'reports/{}_{}.txt'.format(TODAY, plugin['name'])
     if not os.path.exists(reportpath):
         with open(reportpath, 'a+') as result_file:
             result_file.writelines(content)
@@ -151,13 +150,13 @@ if __name__ == '__main__':
     parser.add_argument('-T', help='超时时间', default=3)
     args = parser.parse_args()
     debug = args.d
-    timeout = args.T
+    timeout = int(args.T)
     if not os.path.exists('reports'):
         os.system('mkdir reports')
     if args.ps:
         args.p = args.ps
         plugins = plugin_search()
-        print(green.format('Total:{}\n{}'.format(
+        print(GREEN.format('Total:{}\n{}'.format(
             len(plugins), [p.split('/')[2] for p in plugins])))
         exit(0)
     plugins = plugin_search()
