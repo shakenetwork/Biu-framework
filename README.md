@@ -71,7 +71,7 @@ The scan report is in the `./reports` directory, formate: `today_pluginname.txt`
     "name":"",
     "method": "GET",
     "port": [8080],
-    "suffix":"",
+    "suffix":[""],
     "hits":[""]
 }
 ```
@@ -79,21 +79,25 @@ OR
 
 ```
 {
-    "name": "",
+    "name": "Cacti_default_account_authentication",
     "method": "POST",
     "port": [
-        8080
+        80
     ],
     "suffix": [
-        "/",
-        "/maybe"
+        "/index.php",
+        "/cacti/index.php"
     ],
+    "headers": {
+        "Content-Type": "application/x-www-form-urlencoded"
+    },
     "data": {
-        "username": "admin",
-        "password": "admin"
+        "action": "login",
+        "login_username": "admin",
+        "login_password": "admin"
     },
     "hits": [
-        "success"
+        "graph_view.php"
     ]
 }
 ```

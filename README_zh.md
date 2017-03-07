@@ -71,7 +71,7 @@ python biu.py -p elasticsearch,kibana -f targets.txt
     "name":"", // 名字
     "method": "GET", // 发包方式
     "port": [8080], // 可能的端口
-    "suffix":"", // 目标的后缀，支持list格式
+    "suffix":[""], // 目标的后缀，支持list格式
     "hits":[""] // 命中规则
 }
 ```
