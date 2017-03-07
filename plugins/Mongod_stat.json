@@ -1,0 +1,13 @@
+{
+    "name": "mongod",
+    "method": "GET",
+    "port": [
+        28017
+    ],
+    "suffix": [
+        "/"
+    ],
+    "hits": [
+        "SecsRunning"
+    ]
+}

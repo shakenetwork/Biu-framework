@@ -1,0 +1,13 @@
+{
+    "name": "svn_disclosure",
+    "method": "GET",
+    "port": [
+        80
+    ],
+    "suffix": [
+        "/.svn/all-wcprops"
+    ],
+    "hits": [
+        "svn:wc:ra_dav:version-url"
+    ]
+}

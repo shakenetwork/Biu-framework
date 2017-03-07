@@ -1,0 +1,13 @@
+{
+    "name": "avtech_Information_Disclosure",
+    "method": "GET",
+    "port": [
+        80
+    ],
+    "suffix": [
+        "/cgi-bin/nobody/Machine.cgi?action=get_capability"
+    ],
+    "hits": [
+        "Firmware"
+    ]
+}

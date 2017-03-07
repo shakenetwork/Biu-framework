@@ -1,0 +1,13 @@
+{
+    "name": "Django_Debug",
+    "method": "GET",
+    "port": [
+        80
+    ],
+    "suffix": [
+        "/_orange_/"
+    ],
+    "hits": [
+        "DEBUG = True"
+    ]
+}

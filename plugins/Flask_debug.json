@@ -1,0 +1,14 @@
+{
+    "name": "flask_debug",
+    "method": "GET",
+    "port": [
+        80,
+        5000
+    ],
+    "suffix": [
+        "/orangebiu"
+    ],
+    "hits": [
+        "werkzeug.exceptions.NotFound"
+    ]
+}

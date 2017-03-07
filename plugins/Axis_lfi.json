@@ -1,0 +1,13 @@
+{
+    "name": "axis_local_file_include",
+    "method": "GET",
+    "port": [
+        8080
+    ],
+    "suffix": [
+        "/axis2/services/listServices"
+    ],
+    "hits": [
+        "Available services"
+    ]
+}

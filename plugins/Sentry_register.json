@@ -1,0 +1,14 @@
+{
+    "name": "Sentry_register",
+    "method": "GET",
+    "port": [
+        80,
+        8080
+    ],
+    "suffix": [
+        "/auth/login/"
+    ],
+    "hits": [
+        "auth:register"
+    ]
+}

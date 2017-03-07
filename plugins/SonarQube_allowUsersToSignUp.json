@@ -1,0 +1,14 @@
+{
+    "name": "SonarQube_allowUsersToSignUp",
+    "method": "GET",
+    "port": [
+        80,
+        9000
+    ],
+    "suffix": [
+        "/sessions/login"
+    ],
+    "hits": [
+        "/users/new"
+    ]
+}

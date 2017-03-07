@@ -1,0 +1,13 @@
+{
+    "name": "DS_Store",
+    "method": "GET",
+    "port": [
+        80
+    ],
+    "suffix": [
+        "/.DS_Store"
+    ],
+    "hits": [
+        "ShowSidebar"
+    ]
+}

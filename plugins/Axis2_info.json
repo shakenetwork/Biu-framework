@@ -1,0 +1,13 @@
+{
+    "name": "axis2_info",
+    "method": "GET",
+    "port": [
+        8080
+    ],
+    "suffix": [
+        "/axis2/axis2-web/HappyAxis.jsp"
+    ],
+    "hits": [
+        "Axis2 Happiness Page"
+    ]
+}

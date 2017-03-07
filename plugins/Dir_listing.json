@@ -1,0 +1,13 @@
+{
+    "name": "dir_listing",
+    "method": "GET",
+    "port": [
+        80
+    ],
+    "suffix": [
+        "/"
+    ],
+    "hits": [
+        "<title>Index of /"
+    ]
+}

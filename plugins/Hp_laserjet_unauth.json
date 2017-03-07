@@ -1,0 +1,13 @@
+{
+    "name": "hp_laserjet",
+    "method": "GET",
+    "port": [
+        80
+    ],
+    "suffix": [
+        "/SSI/index.htm"
+    ],
+    "hits": [
+        "LaserJet"
+    ]
+}

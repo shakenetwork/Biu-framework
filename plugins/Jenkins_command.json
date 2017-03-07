@@ -1,0 +1,13 @@
+{
+    "name": "jenkins_command",
+    "method": "GET",
+    "port": [
+        80
+    ],
+    "suffix": [
+        "/script"
+    ],
+    "hits": [
+        "println"
+    ]
+}
