@@ -68,18 +68,16 @@ def audit(url, plugin):
                         savereport(plugin, content)
         elif plugin['method'] in ['GET']:
             http = requests.get
-            response = http(url, timeout=timeout).text
+            response = http(url, timeout=timeout,
+                            headers=plugin.get('headers')).text
         else:
             http = requests.post
-            if 'headers' in plugin.keys():
-                if plugin['headers'] == {"Content-Type": "application/json"}:
-                    response = http(url, timeout=timeout, data=json.dumps(
-                        plugin['data']), headers=plugin['headers']).text
-                else:
-                    response = http(url, timeout=timeout, data=plugin[
-                                    'data'], headers=plugin['headers']).text
+            if plugin['headers'] == {"Content-Type": "application/json"}:
+                response = http(url, timeout=timeout, data=json.dumps(
+                    plugin['data']), headers=plugin['headers']).text
             else:
-                response = http(url, timeout=timeout, data=plugin['data']).text
+                response = http(url, timeout=timeout, data=plugin[
+                    'data'], headers=plugin.get('headers')).text
         if debug:
             pprint(response)
         if 'hits' in plugin.keys():
