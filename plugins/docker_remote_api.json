@@ -4,7 +4,9 @@
     "port": [
         2375
     ],
-    "suffix": "/info",
+    "suffix": [
+        "/info"
+    ],
     "hits": [
         "Containers"
     ]

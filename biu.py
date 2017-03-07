@@ -11,7 +11,6 @@ from multiprocessing import Pool
 from pprint import pprint
 import ipaddress
 import requests
-from requests.auth import HTTPBasicAuth
 
 TODAY = str(datetime.datetime.today()).split(' ')[0].replace('-', '.')
 GREEN = '\033[0;92m{}\033[0;29m'
@@ -41,11 +40,8 @@ def generate_url(target):
 
 
 def add_suffix(target, port, plugin, urls):
-    if type(plugin['suffix']) == list:
-        for suffix in plugin['suffix']:
-            urls.append('http://{}:{}{}'.format(target, port, suffix))
-    else:
-        urls.append('http://{}:{}{}'.format(target, port, plugin['suffix']))
+    for suffix in plugin['suffix']:
+        urls.append('http://{}:{}{}'.format(target, port, suffix))
 
 
 def audit(url, plugin):
@@ -150,7 +146,7 @@ if __name__ == '__main__':
     debug = args.d
     timeout = int(args.T)
     if not os.path.exists('reports'):
-        os.system('mkdir reports')
+        os.mkdir('reports')
     if args.ps:
         args.p = args.ps
         plugins = plugin_search()

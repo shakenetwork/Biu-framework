@@ -4,7 +4,9 @@
     "port": [
         80
     ],
-    "suffix": "/SSI/index.htm",
+    "suffix": [
+        "/SSI/index.htm"
+    ],
     "hits": [
         "LaserJet"
     ]

@@ -5,7 +5,9 @@
         5986,
         5984
     ],
-    "suffix": "/_utils/",
+    "suffix": [
+        "/_utils/"
+    ],
     "hits": [
         "Overview",
         "Databases",

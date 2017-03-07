@@ -4,7 +4,9 @@
     "port": [
         80
     ],
-    "suffix": "/",
+    "suffix": [
+        "/"
+    ],
     "hits": [
         "<title>Index of /"
     ]

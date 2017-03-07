@@ -4,7 +4,9 @@
     "port": [
         80
     ],
-    "suffix": "/cgi-bin/nobody/Machine.cgi?action=get_capability",
+    "suffix": [
+        "/cgi-bin/nobody/Machine.cgi?action=get_capability"
+    ],
     "hits": [
         "Firmware"
     ]

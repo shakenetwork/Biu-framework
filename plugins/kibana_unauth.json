@@ -5,7 +5,9 @@
         80,
         5601
     ],
-    "suffix": "/status",
+    "suffix": [
+        "/status"
+    ],
     "hits": [
         "Kibana",
         "kibanaWelcomeView"

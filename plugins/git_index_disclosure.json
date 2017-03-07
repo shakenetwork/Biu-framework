@@ -4,7 +4,9 @@
     "port": [
         80
     ],
-    "suffix": "/.git/config",
+    "suffix": [
+        "/.git/config"
+    ],
     "hits": [
         "repositoryformatversion"
     ]

@@ -4,7 +4,9 @@
     "port": [
         80
     ],
-    "suffix": "/.DS_Store",
+    "suffix": [
+        "/.DS_Store"
+    ],
     "hits": [
         "ShowSidebar"
     ]

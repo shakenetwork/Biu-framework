@@ -4,7 +4,9 @@
     "port": [
         80
     ],
-    "suffix": "/theme/META-INF/%c0%ae%c0%ae/%c0%ae%c0%ae/%c0%ae%c0%ae/%c0%ae%c0%ae/",
+    "suffix": [
+        "/theme/META-INF/%c0%ae%c0%ae/%c0%ae%c0%ae/%c0%ae%c0%ae/%c0%ae%c0%ae/"
+    ],
     "hits": [
         "package-appclient.xml"
     ]

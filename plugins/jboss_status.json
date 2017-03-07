@@ -4,7 +4,9 @@
     "port": [
         8080
     ],
-    "suffix": "/status?full=true",
+    "suffix": [
+        "/status?full=true"
+    ],
     "hits": [
         "Free memory"
     ]

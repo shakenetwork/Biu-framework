@@ -4,7 +4,9 @@
     "port": [
         28017
     ],
-    "suffix": "/",
+    "suffix": [
+        "/"
+    ],
     "hits": [
         "SecsRunning"
     ]

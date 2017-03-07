@@ -4,7 +4,9 @@
     "port": [
         80
     ],
-    "suffix": "/script",
+    "suffix": [
+        "/script"
+    ],
     "hits": [
         "println"
     ]

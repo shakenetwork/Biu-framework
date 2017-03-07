@@ -4,7 +4,9 @@
     "port": [
         80
     ],
-    "suffix": "/yyoa/ext/trafaxserver/SystemManage/config.jsp",
+    "suffix": [
+        "/yyoa/ext/trafaxserver/SystemManage/config.jsp"
+    ],
     "hits": [
         "testFtpServer"
     ]

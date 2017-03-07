@@ -4,7 +4,9 @@
     "port": [
         80
     ],
-    "suffix": "/_orange_/",
+    "suffix": [
+        "/_orange_/"
+    ],
     "hits": [
         "DEBUG = True"
     ]

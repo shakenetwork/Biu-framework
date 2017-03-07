@@ -4,7 +4,9 @@
     "port": [
         9200
     ],
-    "suffix": "/_alias",
+    "suffix": [
+        "/_alias"
+    ],
     "hits": [
         "aliases"
     ]

@@ -2,6 +2,6 @@
     "name":"",
     "method": "GET",
     "port":[80],
-    "suffix":"",
+    "suffix":[""],
     "hits":[""]
 }

@@ -5,7 +5,9 @@
         80,
         5000
     ],
-    "suffix": "/orangebiu",
+    "suffix": [
+        "/orangebiu"
+    ],
     "hits": [
         "werkzeug.exceptions.NotFound"
     ]

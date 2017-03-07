@@ -4,7 +4,9 @@
     "port": [
         80
     ],
-    "suffix": "/sysinfo.html",
+    "suffix": [
+        "/sysinfo.html"
+    ],
     "hits": [
         "mysqld"
     ]
