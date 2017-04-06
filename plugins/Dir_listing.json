@@ -2,12 +2,12 @@
     "name": "dir_listing",
     "method": "GET",
     "port": [
-        80
+        80,8080
     ],
     "suffix": [
         "/"
     ],
     "hits": [
-        "<title>Index of /"
+        "<title>Index of /","- /</title></head><body><H1>"
     ]
 }
