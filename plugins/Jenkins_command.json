@@ -2,12 +2,12 @@
     "name": "jenkins_command",
     "method": "GET",
     "port": [
-        80
+        80,443,8080
     ],
     "suffix": [
         "/script"
     ],
     "hits": [
-        "println"
+        "println(Jenkins.instance.pluginManager.plugins)"
     ]
 }
