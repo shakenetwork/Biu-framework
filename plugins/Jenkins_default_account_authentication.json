@@ -2,7 +2,8 @@
     "name": "Jenkins_default_account_authentication",
     "method": "POST",
     "port": [
-        80,8080
+        80,
+        8080
     ],
     "suffix": [
         "/jenkins/j_acegi_security_check"
