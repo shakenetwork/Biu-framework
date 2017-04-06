@@ -1,0 +1,22 @@
+{
+    "name": "Jenkins_default_account_authentication",
+    "method": "POST",
+    "port": [
+        80,8080
+    ],
+    "suffix": [
+        "/jenkins/j_acegi_security_check"
+    ],
+    "headers": {
+        "Content-Type": "application/x-www-form-urlencoded"
+    },
+    "data": {
+        "j_username": "admin",
+        "j_password": "123456",
+        "Submit": "log+in",
+        "from": "/"
+    },
+    "hits": [
+        "/user/admin"
+    ]
+}
