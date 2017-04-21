@@ -1,0 +1,13 @@
+{
+    "name": "TeamCity_registerUser",
+    "method": "GET",
+    "port": [
+        80
+    ],
+    "suffix": [
+        "/registerUser.html"
+    ],
+    "hits": [
+        "teamcity.ui.codeMirrorEditor.enabled"
+    ]
+}
