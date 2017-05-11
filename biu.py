@@ -11,6 +11,8 @@ from multiprocessing import Pool
 from pprint import pprint
 import ipaddress
 import requests
+from requests import get as httpget
+from requests import post as httppost
 
 TODAY = str(datetime.datetime.today()).split(' ')[0].replace('-', '.')
 GREEN = '\033[0;92m{}\033[0;29m'
@@ -44,46 +46,49 @@ def add_suffix(target, port, plugin, urls):
         urls.append('http://{}:{}{}'.format(target, port, suffix))
 
 
+def audit_auth(url,plugin):
+    for data in plugin['data']:
+        vulnerable = False
+        response = httpget(url, timeout=timeout,auth=(data['user'], data['pass']))
+        if 'hits' not in plugin.keys():
+            response_code = response.status_code
+            if response_code not in [401,403,404]:
+                vulnerable = True
+                print('\033[0;92m[+] {}\t[{}--{}]\033[0;29m'.format(url, plugin['name'], data))
+                content = data + '\t' + url + '\n'
+                savereport(plugin, content)
+        return response,vulnerable
+
+
+def audit_get(url,plugin):
+    response = httpget(url, timeout=timeout,headers=plugin.get('headers'))
+    return response
+def audit_post(url,plugin):
+    if plugin.get('headers') == {"Content-Type": "application/json"}:
+        response = httppost(url, timeout=timeout, data=json.dumps(plugin.get('data')), headers=plugin.get('headers'))
+    else:
+        response = httppost(url, timeout=timeout, data=plugin.get('data'), headers=plugin.get('headers'))
+    return response
+
 def audit(url, plugin):
     try:
         vulnerable = False
         if plugin['method'] in ['AUTH']:
-            http = requests.get
-            for data in plugin['data']:
-                reqresult = http(url, timeout=timeout,
-                                 auth=(data['user'], data['pass']))
-                if 'hits' in plugin.keys():
-                    response = reqresult.text
-                else:
-                    httpcode = reqresult.status_code
-                    if httpcode != 401:
-                        vulnerable = True
-                        print(
-                            '\033[0;92m[+] {}\t[{}--{}]\033[0;29m'.format(url, plugin['name'], data))
-                        content = data + '\t' + url + '\n'
-                        savereport(plugin, content)
+            response,vulnerable=audit_auth(url,plugin)
         elif plugin['method'] in ['GET']:
-            http = requests.get
-            response = http(url, timeout=timeout,
-                            headers=plugin.get('headers')).text
-        else:
-            http = requests.post
-            if plugin['headers'] == {"Content-Type": "application/json"}:
-                response = http(url, timeout=timeout, data=json.dumps(
-                    plugin['data']), headers=plugin['headers']).text
-            else:
-                response = http(url, timeout=timeout, data=plugin[
-                    'data'], headers=plugin.get('headers')).text
+            response = audit_get(url,plugin)
+        elif plugin['method'] in ['POST']:
+            response = audit_post(url,plugin)
+        
         if debug:
-            pprint(response)
+            if response.status_code not in [403,404]:
+                pprint(response.text)
+
         if 'hits' in plugin.keys():
             for hit in plugin['hits']:
-                if hit not in response:
-                    pass
-                else:
+                if hit in hit_where(response,plugin):
                     vulnerable = True
-                    print(
-                        '\033[0;92m[+] {}\t[{}]\033[0;29m'.format(url, plugin['name']))
+                    print('\033[0;92m[+] {}\t[{}]\033[0;29m'.format(url, plugin['name']))
                     content = url + '\n'
                     savereport(plugin, content)
 
@@ -91,6 +96,14 @@ def audit(url, plugin):
             print('\033[0;31m[-] \033[0;29m{}'.format(url))
     except:
         pass
+
+def hit_where(response,plugin):
+    if plugin.get('hit_where'):
+        where = plugin.get('hit_where')
+        if 'headers' in where:
+            return response.headers.get(where.split('.')[-1])
+    else:
+        return response.text
 
 
 def savereport(plugin, content):
@@ -124,6 +137,8 @@ def handlefile(targets_file):
                 else:
                     targets.append(target)
     return targets
+
+
 
 
 def plugin_search():
