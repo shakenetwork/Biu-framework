@@ -10,6 +10,7 @@
         "/www.zip",
         "/backup.zip",
         "/old.zip",
+        "/bak.zip",
         "/code.zip"
     ],
     "hit_where": "headers.Content-Type",
