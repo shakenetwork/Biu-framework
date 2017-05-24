@@ -9,14 +9,14 @@ import json
 import os
 from multiprocessing import Pool
 from pprint import pprint
+
 import ipaddress
-import requests
-from requests import get as httpget
-from requests import post as httppost
+from requests import request
 
 TODAY = str(datetime.datetime.today()).split(' ')[0].replace('-', '.')
 GREEN = '\033[0;92m{}\033[0;29m'
 RED = '\033[0;31m{}\033[0;29m'
+TOO_LONG = 2097152
 targets = []
 
 
@@ -46,49 +46,58 @@ def add_suffix(target, port, plugin, urls):
         urls.append('http://{}:{}{}'.format(target, port, suffix))
 
 
-def audit_auth(url,plugin):
-    for data in plugin['data']:
+def audit_auth(url, plugin):
+    for data in plugin.get('data'):
         vulnerable = False
-        response = httpget(url, timeout=timeout,auth=(data['user'], data['pass']))
+        response = request(plugin.get('method'), url, timeout=timeout,
+                           auth=(data['user'], data['pass']))
         if 'hits' not in plugin.keys():
             response_code = response.status_code
-            if response_code not in [401,403,404]:
+            if response_code not in [401, 403, 404]:
                 vulnerable = True
-                print('\033[0;92m[+] {}\t[{}--{}]\033[0;29m'.format(url, plugin['name'], data))
+                print(
+                    '\033[0;92m[+] {}\t[{}--{}]\033[0;29m'.format(url, plugin['name'], data))
                 content = data + '\t' + url + '\n'
                 savereport(plugin, content)
-        return response,vulnerable
+        return response, vulnerable
 
 
-def audit_get(url,plugin):
-    response = httpget(url, timeout=timeout,headers=plugin.get('headers'))
+def audit_gethead(url, plugin):
+    response = request(plugin.get('method'), url, timeout=timeout,
+                       headers=plugin.get('headers'), stream=True)
+    if int(response.headers['content-length']) < TOO_LONG:
+        content = response.content
     return response
-def audit_post(url,plugin):
+
+
+def audit_post(url, plugin):
     if plugin.get('headers') == {"Content-Type": "application/json"}:
-        response = httppost(url, timeout=timeout, data=json.dumps(plugin.get('data')), headers=plugin.get('headers'))
+        response = request(plugin.get('method'), url, timeout=timeout, data=json.dumps(
+            plugin.get('data')), headers=plugin.get('headers'))
     else:
-        response = httppost(url, timeout=timeout, data=plugin.get('data'), headers=plugin.get('headers'))
+        response = request(plugin.get('method'), url, timeout=timeout, data=plugin.get(
+            'data'), headers=plugin.get('headers'))
     return response
+
 
 def audit(url, plugin):
     try:
         vulnerable = False
         if plugin['method'] in ['AUTH']:
-            response,vulnerable=audit_auth(url,plugin)
-        elif plugin['method'] in ['GET']:
-            response = audit_get(url,plugin)
+            response, vulnerable = audit_auth(url, plugin)
+        elif plugin['method'] in ['GET', 'HEAD']:
+            response = audit_gethead(url, plugin)
         elif plugin['method'] in ['POST']:
-            response = audit_post(url,plugin)
-        
+            response = audit_post(url, plugin)
         if debug:
-            if response.status_code not in [403,404]:
+            if response.status_code not in [403, 404]:
                 pprint(response.text)
-
         if 'hits' in plugin.keys():
             for hit in plugin['hits']:
-                if hit in hit_where(response,plugin):
+                if hit in hit_where(response, plugin):
                     vulnerable = True
-                    print('\033[0;92m[+] {}\t[{}]\033[0;29m'.format(url, plugin['name']))
+                    print(
+                        '\033[0;92m[+] {}\t[{}]\033[0;29m'.format(url, plugin['name']))
                     content = url + '\n'
                     savereport(plugin, content)
 
@@ -97,7 +106,8 @@ def audit(url, plugin):
     except:
         pass
 
-def hit_where(response,plugin):
+
+def hit_where(response, plugin):
     if plugin.get('hit_where'):
         where = plugin.get('hit_where')
         if 'headers' in where:
@@ -139,8 +149,6 @@ def handlefile(targets_file):
     return targets
 
 
-
-
 def plugin_search():
     plugins = []
     for plugin in glob.glob("./plugins/*.json"):
@@ -148,6 +156,8 @@ def plugin_search():
             if p in plugin.lower():
                 plugins.append(plugin)
     return plugins
+
+
 if __name__ == '__main__':
     parser = argparse.ArgumentParser(description='Biu~')
     parser.add_argument('-f', help='目标文件: 每行一个ip或域名')
