@@ -1,0 +1,13 @@
+{
+    "name": "CeleryFlower_unauth",
+    "method": "GET",
+    "port": [
+        5555
+    ],
+    "suffix": [
+        "/monitor"
+    ],
+    "hits": [
+        "Celery Flower"
+    ]
+}
