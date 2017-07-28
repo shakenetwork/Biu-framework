@@ -1,0 +1,19 @@
+{
+    "name": "Supervisor_Authenticated_Remote_Code_Execution",
+    "method": "POST",
+    "port": [
+        80,
+        9001
+    ],
+    "suffix": [
+        "/RPC2"
+    ],
+    "headers": {
+        "Content-Type": "text/xml"
+    },
+    "data": "<?xml version=\"1.0\"?><methodCall><methodName>supervisor.getSupervisorVersion</methodName></methodCall>",
+    "hits": [
+        "3.1.2",
+        "3.3.2"
+    ]
+}
