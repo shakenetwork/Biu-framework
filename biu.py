@@ -63,8 +63,12 @@ def audit_auth(url, plugin):
 
 
 def audit_gethead(url, plugin):
-    response = request(plugin.get('method'), url, timeout=timeout,
-                       headers=plugin.get('headers'), stream=True)
+    try:
+        response = request(plugin.get('method'), url, timeout=timeout,
+                        headers=plugin.get('headers'), stream=True)
+    except:
+        response = request(plugin.get('method'), url,verify=True, timeout=timeout,
+                        headers=plugin.get('headers'), stream=True)
     if int(response.headers['content-length']) < TOO_LONG:
         content = response.content
     return response
@@ -92,6 +96,7 @@ def audit(url, plugin):
         if debug:
             if response.status_code not in [403, 404]:
                 pprint(response.text)
+                pprint(response.headers)
         if 'hits' in plugin.keys():
             for hit in plugin['hits']:
                 if hit in hit_where(response, plugin):
@@ -103,7 +108,7 @@ def audit(url, plugin):
 
         if not vulnerable:
             print('\033[0;31m[-] \033[0;29m{}'.format(url))
-    except:
+    except Exception as e:
         pass
 
 
