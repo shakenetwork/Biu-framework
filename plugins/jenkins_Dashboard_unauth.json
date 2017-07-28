@@ -1,5 +1,5 @@
 {
-    "name": "jenkins_Dashboard_unauth",
+    "name": "Jenkins_Dashboard_unauth",
     "method": "GET",
     "port": [
         80,
