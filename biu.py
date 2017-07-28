@@ -86,6 +86,7 @@ class Aduit(object):
         self.debug = debug
         self.TOO_LONG = 2097152
         self.run()
+        self.result = {'vulnerable':self.vulnerable,'url':self.url,'plugin':self.plugin.get('name')}
 
     def run(self):
         try:
