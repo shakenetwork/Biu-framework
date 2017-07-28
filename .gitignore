@@ -96,3 +96,4 @@ ENV/
 .DS_Store
 test/target.txt
 *.txt
+.vscode
