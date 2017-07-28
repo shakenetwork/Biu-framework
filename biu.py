@@ -13,154 +13,172 @@ from pprint import pprint
 import ipaddress
 from requests import request
 
-TODAY = str(datetime.datetime.today()).split(' ')[0].replace('-', '.')
 GREEN = '\033[0;92m{}\033[0;29m'
 RED = '\033[0;31m{}\033[0;29m'
-TOO_LONG = 2097152
-targets = []
 
 
-def generate_url(target):
-    if target in targets:
-        return
-    else:
-        targets.append(target)
-    for plugin in plugins:
-        urls = []
-        with open(plugin) as f:
-            plugin = json.load(f)
-        if ':' in target:
-            add_suffix(
-                target.split(':')[0], target.split(':')[1], plugin, urls)
-        elif plugin['port'] == [80]:
-            add_suffix(target, 80, plugin, urls)
-        else:
-            for port in plugin['port']:
-                add_suffix(target, port, plugin, urls)
-        for url in urls:
-            audit(url, plugin)
+class HandleTarget(object):
+    def __init__(self, plugins, target=None, iprange=None, targets_file=None):
+        self.plugins = plugins
+        self.targets = []
+        self.tasks = []
+        if target:
+            if '://' in target:
+                self.targets.append(target.split('://')[1].split('/')[0])
+            else:
+                self.targets.append(target)
+        if targets_file:
+            self.targets_file = targets_file
+            self.handlefile()
+        if iprange:
+            self.iprange = iprange
+            self.hendleiprange()
+        if self.targets:
+            self.generate_url()
 
+    def handlefile(self):
+        with open(self.targets_file, 'r') as f:
+            content = f.readlines()
+            if 'masscan' in content[0]:
+                for target in content[1:-1]:
+                    ipport = target.split(' ')[2:4]
+                    ipport.reverse()
+                    self.targets.append(':'.join(ipport))
+            else:
+                for target in content:
+                    target = target.strip('\n').strip('\t').strip(' ')
+                    if '://' in target:
+                        target = target.split('://')[1].split('/')[0]
+                        self.targets.append(target)
+                    else:
+                        self.targets.append(target)
 
-def add_suffix(target, port, plugin, urls):
-    for suffix in plugin['suffix']:
-        urls.append('http://{}:{}{}'.format(target, port, suffix))
+    def hendleiprange(self):
+        for target in ipaddress.IPv4Network(self.iprange, strict=False):
+            self.targets.append(str(target))
 
-
-def audit_auth(url, plugin):
-    for data in plugin.get('data'):
-        vulnerable = False
-        response = request(plugin.get('method'), url, timeout=timeout,
-                           auth=(data['user'], data['pass']))
-        if 'hits' not in plugin.keys():
-            response_code = response.status_code
-            if response_code not in [401, 403, 404]:
-                vulnerable = True
-                print(
-                    '\033[0;92m[+] {}\t[{}--{}]\033[0;29m'.format(url, plugin['name'], data))
-                content = data + '\t' + url + '\n'
-                savereport(plugin, content)
-        return response, vulnerable
-
-
-def audit_gethead(url, plugin):
-    try:
-        response = request(plugin.get('method'), url, timeout=timeout,
-                        headers=plugin.get('headers'), stream=True)
-    except:
-        response = request(plugin.get('method'), url,verify=True, timeout=timeout,
-                        headers=plugin.get('headers'), stream=True)
-    if int(response.headers['content-length']) < TOO_LONG:
-        content = response.content
-    return response
-
-
-def audit_post(url, plugin):
-    if plugin.get('headers') == {"Content-Type": "application/json"}:
-        response = request(plugin.get('method'), url, timeout=timeout, data=json.dumps(
-            plugin.get('data')), headers=plugin.get('headers'))
-    else:
-        response = request(plugin.get('method'), url, timeout=timeout, data=plugin.get(
-            'data'), headers=plugin.get('headers'))
-    return response
-
-
-def audit(url, plugin):
-    try:
-        vulnerable = False
-        if plugin['method'] in ['AUTH']:
-            response, vulnerable = audit_auth(url, plugin)
-        elif plugin['method'] in ['GET', 'HEAD']:
-            response = audit_gethead(url, plugin)
-        elif plugin['method'] in ['POST']:
-            response = audit_post(url, plugin)
-        if debug:
-            if response.status_code not in [403, 404]:
-                pprint(response.text)
-                pprint(response.headers)
-        if 'hits' in plugin.keys():
-            for hit in plugin['hits']:
-                if hit in hit_where(response, plugin):
-                    vulnerable = True
-                    print(
-                        '\033[0;92m[+] {}\t[{}]\033[0;29m'.format(url, plugin['name']))
-                    content = url + '\n'
-                    savereport(plugin, content)
-
-        if not vulnerable:
-            print('\033[0;31m[-] \033[0;29m{}'.format(url))
-    except Exception as e:
-        pass
-
-
-def hit_where(response, plugin):
-    if plugin.get('hit_where'):
-        where = plugin.get('hit_where')
-        if 'headers' in where:
-            return response.headers.get(where.split('.')[-1])
-    else:
-        return response.text
-
-
-def savereport(plugin, content):
-    reportpath = 'reports/{}_{}.txt'.format(TODAY, plugin['name'])
-    if not os.path.exists(reportpath):
-        with open(reportpath, 'a+') as result_file:
-            result_file.writelines(content)
-            return
-    with open(reportpath, 'r') as result_file:
-        if content in result_file.readlines():
-            return
-    with open(reportpath, 'a+') as result_file:
-        result_file.writelines(content)
-
-
-def handlefile(targets_file):
-    targets = []
-    with open(targets_file, 'r') as f:
-        content = f.readlines()
-        if 'masscan' in content[0]:
-            for target in content[1:-1]:
-                ipport = target.split(' ')[2:4]
-                ipport.reverse()
-                targets.append(':'.join(ipport))
-        else:
-            for target in content:
-                target = target.strip('\n').strip('\t').strip(' ')
-                if '://' in target:
-                    target = target.split('://')[1].split('/')[0]
-                    targets.append(target)
+    def generate_url(self):
+        for target in self.targets:
+            for plugin in self.plugins:
+                with open(plugin) as f:
+                    plugin = json.load(f)
+                if ':' in target:
+                    self.add_suffix(
+                        target.split(':')[0], target.split(':')[1], plugin)
+                elif plugin['port'] == [80]:
+                    self.add_suffix(target, 80, plugin)
                 else:
-                    targets.append(target)
-    return targets
+                    for port in plugin['port']:
+                        self.add_suffix(target, port, plugin)
+
+    def add_suffix(self, target, port, plugin):
+        for suffix in plugin['suffix']:
+            self.tasks.append(
+                {'url': 'http://{}:{}{}'.format(target, port, suffix), 'plugin': plugin})
 
 
-def plugin_search():
-    plugins = []
-    for plugin in glob.glob("./plugins/*.json"):
-        for p in args.p.lower().split(','):
-            if p in plugin.lower():
-                plugins.append(plugin)
-    return plugins
+class Aduit(object):
+    def __init__(self, url, plugin, timeout=3, debug=0):
+        self.url = url
+        self.plugin = plugin
+        self.vulnerable = False
+        self.timeout = timeout
+        self.debug = debug
+        self.TOO_LONG = 2097152
+        self.run()
+
+    def run(self):
+        try:
+            if self.plugin.get('method') in ['AUTH']:
+                self.audit_auth()
+            elif self.plugin.get('method') in ['GET', 'HEAD']:
+                self.audit_gethead()
+            elif self.plugin.get('method') in ['POST']:
+                self.audit_post()
+            self.stdout()
+            if self.vulnerable:
+                self.savereport()
+        except:
+            pass
+
+    def audit_auth(self):
+        for data in self.plugin.get('data'):
+            self.vulnerable = False
+            self.response = request(self.plugin.get('method'), self.url, timeout=self.timeout,
+                                    auth=(data['user'], data['pass']))
+            if 'hits' not in self.plugin.keys():
+                response_code = self.response.status_code
+                if response_code not in [401, 403, 404]:
+                    self.vulnerable = True
+                    print(
+                        '\033[0;92m[+] {}\t[{}--{}]\033[0;29m'.format(self.url, self.plugin.get('name'), data))
+                    self.content = data + '\t' + self.url + '\n'
+
+    def audit_gethead(self):
+        try:
+            self.response = request(self.plugin.get('method'), self.url, timeout=self.timeout,
+                                    headers=self.plugin.get('headers'), stream=True)
+        except:
+            self.response = request(self.plugin.get('method'), self.url, verify=True, timeout=self.timeout,
+                                    headers=self.plugin.get('headers'), stream=True)
+        if int(self.response.headers['content-length']) < self.TOO_LONG:
+            content = self.response.content
+
+    def audit_post(self):
+        if self.plugin.get('headers') == {"Content-Type": "application/json"}:
+            self.response = request(self.plugin.get('method'), self.url, timeout=self.timeout, data=json.dumps(
+                self.plugin.get('data')), headers=self.plugin.get('headers'))
+        else:
+            self.response = request(self.plugin.get('method'), self.url, timeout=self.timeout, data=self.plugin.get(
+                'data'), headers=self.plugin.get('headers'))
+
+    def hit_where(self):
+        if self.plugin.get('hit_where'):
+            where = self.plugin.get('hit_where')
+            if 'headers' in where:
+                return self.response.headers.get(where.split('.')[-1])
+        else:
+            return self.response.text
+
+    def savereport(self):
+        if not os.path.exists('reports'):
+            os.mkdir('reports')
+        TODAY = str(datetime.datetime.today()).split(' ')[0].replace('-', '.')
+        reportpath = 'reports/{}_{}.txt'.format(TODAY, self.plugin.get('name'))
+        with open(reportpath, 'a+') as result_file:
+            if self.content in result_file.readlines():
+                return
+            else:
+                result_file.writelines(self.content)
+
+    def stdout(self):
+        if self.debug:
+            if self.response.status_code not in [403, 404]:
+                pprint(self.response.text)
+                pprint(self.response.headers)
+        if 'hits' in self.plugin.keys():
+            for hit in self.plugin['hits']:
+                if hit in self.hit_where():
+                    self.vulnerable = True
+                    print(
+                        '\033[0;92m[+] {}\t[{}]\033[0;29m'.format(self.url, self.plugin.get('name')))
+                    self.content = self.url + '\n'
+        if not self.vulnerable:
+            print('\033[0;31m[-] \033[0;29m{}'.format(self.url))
+
+
+class BiuPlugin(object):
+    def __init__(self, searchstr):
+        self.plugin_path = './plugins/*.json'
+        self.plugins = []
+        self.searchstr = searchstr
+        self.plugin_search()
+
+    def plugin_search(self):
+        for plugin in glob.glob(self.plugin_path):
+            for p in self.searchstr.lower().split(','):
+                if p in plugin.lower():
+                    self.plugins.append(plugin)
 
 
 if __name__ == '__main__':
@@ -173,33 +191,27 @@ if __name__ == '__main__':
     parser.add_argument('-d', help='Debug', default=0)
     parser.add_argument('-T', help='超时时间', default=3)
     args = parser.parse_args()
-    debug = args.d
-    timeout = int(args.T)
-    if not os.path.exists('reports'):
-        os.mkdir('reports')
     if args.ps:
-        args.p = args.ps
-        plugins = plugin_search()
+        searchstr = args.ps
+        plugins = BiuPlugin(searchstr=searchstr).plugins
         print(GREEN.format('Total:{}\n{}'.format(
             len(plugins), [p.split('/')[2] for p in plugins])))
         exit(0)
-    plugins = plugin_search()
-    p = Pool(100)
-    if args.f:
-        targets_file = args.f
-        tagets = handlefile(targets_file)
-        for target in tagets:
-            p.apply_async(generate_url, (target, ))
+    searchstr = args.p
+    plugins = BiuPlugin(searchstr=searchstr).plugins
+    targets_file = args.f
+    iprange = args.r
+    target = args.t
+    debug = int(args.d)
+    timeout = int(args.T)
+    targets = HandleTarget(plugins=plugins, target=target,
+                           iprange=iprange, targets_file=targets_file)
+    try:
+        p = Pool(100)
+        for task in targets.tasks:
+            p.apply_async(Aduit, args=(task.get('url'),
+                                       task.get('plugin'), timeout, debug))
         p.close()
         p.join()
-    elif args.t:
-        if '://' in args.t:
-            args.t = args.t.split('://')[1].split('/')[0]
-        generate_url(args.t)
-    elif args.r:
-        for target in ipaddress.IPv4Network(args.r):
-            p.apply_async(generate_url, (str(target), ))
-        p.close()
-        p.join()
-    else:
-        pass
+    except KeyboardInterrupt as e:
+        exit(0)
