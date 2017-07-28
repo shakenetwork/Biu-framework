@@ -95,3 +95,4 @@ ENV/
 # Mac osx
 .DS_Store
 test/target.txt
+*.txt
