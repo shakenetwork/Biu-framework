@@ -2,7 +2,7 @@
     "name": "Apache_Subversion_Module_Metadata_Accessible",
     "method": "GET",
     "port": [
-        80
+        80,443
     ],
     "suffix": [
         "/.svn/all-wcprops"
