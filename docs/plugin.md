@@ -4,6 +4,7 @@
 ```
 {
     "name":"",
+    "author": "",
     "method": "GET",
     "port": [],
     "suffix":[""],
@@ -15,6 +16,7 @@
 ```
 {
     "name": "Cacti_default_account_authentication",
+    "author": "0xbug",
     "method": "POST",
     "port": [
         80
@@ -42,6 +44,7 @@
 ```
 {
     "name": "RabbitMQManagement_guest",
+    "author": "0xbug",
     "method": "AUTH",
     "port": [
         80,
@@ -68,6 +71,7 @@
 ```
 {
     "name": "CompressedBackupFile_undelete",
+    "author": "0xbug",
     "method": "HEAD",
     "port": [
         80,
