@@ -100,7 +100,8 @@ class Aduit(object):
             if self.vulnerable:
                 self.savereport()
         except Exception as e:
-            print(e)
+            if self.debug:
+                print(e)
             pass
 
     def audit_auth(self):
