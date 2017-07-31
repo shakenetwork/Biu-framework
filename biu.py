@@ -99,7 +99,8 @@ class Aduit(object):
             self.stdout()
             if self.vulnerable:
                 self.savereport()
-        except:
+        except Exception as e:
+            print(e)
             pass
 
     def audit_auth(self):
@@ -122,8 +123,9 @@ class Aduit(object):
         except:
             self.response = request(self.plugin.get('method'), self.url, verify=True, timeout=self.timeout,
                                     headers=self.plugin.get('headers'), stream=True)
-        if int(self.response.headers['content-length']) < self.TOO_LONG:
-            content = self.response.content
+        if self.response.headers.get('content-length'):
+            if int(self.response.headers.get('content-length')) < self.TOO_LONG:
+                content = self.response.content
 
     def audit_post(self):
         if self.plugin.get('headers') == {"Content-Type": "application/json"}:
