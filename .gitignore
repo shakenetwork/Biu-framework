@@ -97,3 +97,5 @@ ENV/
 test/target.txt
 *.txt
 .vscode
+results.csv
+helper.py
