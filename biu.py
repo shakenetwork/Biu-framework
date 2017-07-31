@@ -149,10 +149,11 @@ class Aduit(object):
             os.mkdir('reports')
         TODAY = str(datetime.datetime.today()).split(' ')[0].replace('-', '.')
         reportpath = 'reports/{}_{}.txt'.format(TODAY, self.plugin.get('name'))
+        if os.path.exists(reportpath):
+            with open(reportpath, 'r') as result_file:
+                if self.content in result_file.readlines():
+                    return
         with open(reportpath, 'a+') as result_file:
-            if self.content in result_file.readlines():
-                return
-            else:
                 result_file.writelines(self.content)
 
     def stdout(self):
