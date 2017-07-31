@@ -1,5 +1,6 @@
 {
     "name": "CeleryFlower_unauth",
+    "author": "0xbug",
     "method": "GET",
     "port": [
         5555
@@ -9,5 +10,8 @@
     ],
     "hits": [
         "Celery Flower"
+    ],
+    "document": [
+        "http://flower.readthedocs.io/en/latest/auth.html"
     ]
 }
