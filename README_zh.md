@@ -69,10 +69,12 @@ python biu.py -p elasticsearch,kibana -f targets.txt
 ```
 {
     "name":"", // 名字
+    "author":"", // 插件作者
     "method": "GET", // 发包方式
     "port": [8080], // 可能的端口
     "suffix":[""], // 目标的后缀，支持list格式
-    "hits":[""] // 命中规则
+    "hits":[""], // 命中规则
+    "document":[""] //修复方案
 }
 ```
 
@@ -80,21 +82,20 @@ python biu.py -p elasticsearch,kibana -f targets.txt
 
 ```
 {
-    "name": "",
-    "method": "POST",
+    "name": "Percona_Monitoring_and_Management_unauth",
+    "author": "0xbug",
+    "method": "GET",
     "port": [
-        8080
+        80
     ],
     "suffix": [
-        "/",
-        "/maybe"
+        "/qan/"
     ],
-    "data": {
-        "username": "admin",
-        "password": "admin"
-    },
     "hits": [
-        "success"
+        "Percona Query Analytics"
+    ],
+    "document": [
+        "https://www.percona.com/doc/percona-monitoring-and-management/security.html"
     ]
 }
 ```
@@ -104,13 +105,14 @@ python biu.py -p elasticsearch,kibana -f targets.txt
 ```
 {
     "name": "RabbitMQManagement_guest",
+    "author": "0xbug",
     "method": "AUTH",
     "port": [
         80,
         8080
     ],
     "suffix": [
-        "/api/whoami"
+        "/api/whoami"   
     ],
     "data": [
         {

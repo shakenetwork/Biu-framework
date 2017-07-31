@@ -66,20 +66,24 @@ The scan report is in the `./reports` directory, formate: `today_pluginname.txt`
 
 ### Just like this 🚀
 
+### Template
 ```
 {
     "name":"",
+    "author": "",
     "method": "GET",
-    "port": [8080],
+    "port": [],
     "suffix":[""],
-    "hits":[""]
+    "hits":[""],
+    "document": [""]
 }
 ```
-OR
+
 
 ```
 {
     "name": "Cacti_default_account_authentication",
+    "author": "0xbug",
     "method": "POST",
     "port": [
         80
@@ -102,11 +106,12 @@ OR
 }
 ```
 
-OR
+
 
 ```
 {
     "name": "RabbitMQManagement_guest",
+    "author": "0xbug",
     "method": "AUTH",
     "port": [
         80,
@@ -126,4 +131,30 @@ OR
     ]
 }
 
+```
+
+
+
+```
+{
+    "name": "CompressedBackupFile_undelete",
+    "author": "0xbug",
+    "method": "HEAD",
+    "port": [
+        80,
+        8080
+    ],
+    "suffix": [
+        "/web.zip",
+        "/www.zip",
+        "/backup.zip",
+        "/old.zip",
+        "/bak.zip",
+        "/code.zip"
+    ],
+    "hit_where": "headers.Content-Type",
+    "hits": [
+        "application/x-zip-compressed"
+    ]
+}
 ```
